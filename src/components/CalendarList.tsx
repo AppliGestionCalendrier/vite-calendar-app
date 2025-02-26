@@ -112,8 +112,8 @@ const CalendarList: React.FC = () => {
                     <div className="calendar-list">
                         {calendars.length > 0 ? (
                             calendars.map(calendar => (
-                                <div key={calendar.id} className="calendar-list-item d-flex justify-content-between align-items-center">
-                                    <Link to={`/calendars/${calendar.id}`} className="calendar-name text-decoration-none text-light">
+                                <div key={calendar.id} className="calendar-list-item d-flex justify-content-between align-items-center w-100">
+                                    <Link to={`/calendars/${calendar.id}`} className="calendar-name text-decoration-none text-light w-75 text-truncate">
                                         📅 {calendar.name}
                                     </Link>
                                     <button
