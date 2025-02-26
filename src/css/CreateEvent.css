@@ -19,6 +19,10 @@
     outline: none;
 }
 
+.event-input::placeholder {
+    color: #FFD700 !important;
+}
+
 /* Carte d'aperçu de l'événement */
 .event-preview {
     background: #222;
