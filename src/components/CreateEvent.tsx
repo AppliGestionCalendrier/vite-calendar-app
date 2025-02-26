@@ -2,29 +2,11 @@ import React, { useState } from "react";
 import { Button, Form, Card } from "react-bootstrap";
 import * as chrono from "chrono-node";
 import "../css/CreateEvent.css";
+import { CreateEventProps, InputState, PreviewState, TimeRange, StopWord } from "../types/event.types";
 
-export interface Event {
-    uid: string;
-    summary: string;
-    startDate: string;
-    endDate: string;
-}
-
-const removeStopWords = (text: string): string => {
-    const stopWords: string[] = [
-        "de",
-        "à",
-        "le",
-        "la",
-        "les",
-        "du",
-        "des",
-        "un",
-        "une",
-        "et",
-        "en",
-        "prochain",
-    ];
+// 🔹 Fonction pour supprimer les mots inutiles (stopwords)
+const removeStopWords = (text: string) => {
+    const stopWords: StopWord[] = ["de", "à", "le", "la", "les", "du", "des", "un", "une", "et", "en","prochain"];
     return text
         .split(" ")
         .filter((word: string) => !stopWords.includes(word.toLowerCase()))
@@ -32,13 +14,9 @@ const removeStopWords = (text: string): string => {
         .trim();
 };
 
-interface CreateEventProps {
-    onEventCreated: (event: Event) => void;
-}
-
 const CreateEvent: React.FC<CreateEventProps> = ({ onEventCreated }) => {
-    const [inputText, setInputText] = useState<string>("");
-    const [previewEvent, setPreviewEvent] = useState<Event | null>(null);
+    const [inputText, setInputText] = useState<InputState>("");
+    const [previewEvent, setPreviewEvent] = useState<PreviewState>(null);
 
     const handleInputChange = (text: string): void => {
         setInputText(text);
@@ -56,10 +34,14 @@ const CreateEvent: React.FC<CreateEventProps> = ({ onEventCreated }) => {
         const timeRangeMatch = text.match(/(\d{1,2}h(\d{1,2})?)\s*(à|-)\s*(\d{1,2}h(\d{1,2})?)/i);
         if (timeRangeMatch) {
             const [, startTime, , , endTime] = timeRangeMatch;
-            const startHour: number = parseInt(startTime.replace("h", "").trim());
-            const endHour: number = parseInt(endTime.replace("h", "").trim());
-            eventStart.setHours(startHour, 0);
-            eventEnd.setHours(endHour, 0);
+
+            const timeRange: TimeRange = {
+                startHour: parseInt(startTime.replace("h", "").trim()),
+                endHour: parseInt(endTime.replace("h", "").trim())
+            };
+
+            eventStart.setHours(timeRange.startHour, 0);
+            eventEnd.setHours(timeRange.endHour, 0);
         }
 
         const words: string[] = text.split(" ");
@@ -69,8 +51,8 @@ const CreateEvent: React.FC<CreateEventProps> = ({ onEventCreated }) => {
         setPreviewEvent({
             uid: Date.now().toString(),
             summary: eventSummary,
-            startDate: eventStart.toISOString(),
-            endDate: eventEnd.toISOString(),
+            startDate: eventStart,
+            endDate: eventEnd,
         });
     };
 
@@ -104,10 +86,10 @@ const CreateEvent: React.FC<CreateEventProps> = ({ onEventCreated }) => {
                             <>
                                 <h4>{previewEvent.summary}</h4>
                                 <p>
-                                    <strong>Début :</strong> {new Date(previewEvent.startDate).toLocaleString()}
+                                    <strong>Début :</strong> {previewEvent.startDate.toLocaleString()}
                                 </p>
                                 <p>
-                                    <strong>Fin :</strong> {new Date(previewEvent.endDate).toLocaleString()}
+                                    <strong>Fin :</strong> {previewEvent.endDate.toLocaleString()}
                                 </p>
                             </>
                         ) : (
