@@ -19,7 +19,6 @@ export interface Event {
     summary: string;
     startDate: string;
     endDate: string;
-    // Propriété "group" supprimée
 }
 
 const CalendarDetail: React.FC = () => {
