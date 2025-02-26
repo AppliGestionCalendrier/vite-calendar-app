@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Modal, Form } from 'react-bootstrap';
 import '../css/CalendarDetail.css';
+import CreateEvent from "./CreateEvent.tsx";
 
 interface CalendarDetailParams {
     id: string;
@@ -107,22 +108,6 @@ const CalendarDetail: React.FC = () => {
         setShowModal(true);
     };
 
-    const handleCreateEvent = () => {
-        const today = new Date().toISOString().split('T')[0];
-        const newEvent: Event = {
-            uid: Date.now().toString(),
-            summary: '',
-            startDate: `${today}T09:00`,
-            endDate: `${today}T10:00`,
-            group: ''
-        };
-        setCurrentEvent(newEvent);
-        setSelectedGroup('');
-        setNewGroupName('');
-        setIsCreating(true);
-        setShowModal(true);
-    };
-
     const saveEventChanges = () => {
         if (currentEvent) {
             let updatedGroup = currentEvent.group;
@@ -157,12 +142,13 @@ const CalendarDetail: React.FC = () => {
 
                 {/* Bouton pour créer un nouvel événement */}
                 <div className="mb-3 d-flex justify-content-between">
-                    <Button className="button-success mb-3" onClick={handleCreateEvent}>
-                        Créer un événement
-                    </Button>
+                    {/* Bouton pour créer un événement */}
+                    <CreateEvent onEventCreated={(event) => setEvents([...events, event])} />
+                    <div className="mt-4">
                     <Button className="button-secondary mb-3" onClick={() => window.location.href = "http://localhost:3001"}>
                         Retour aux calendriers
                     </Button>
+                    </div>
                 </div>
 
                 {/* Filtres et tris */}
