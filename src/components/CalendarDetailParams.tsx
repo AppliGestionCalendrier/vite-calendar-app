@@ -19,7 +19,7 @@ export interface Event {
     summary: string;
     startDate: string;
     endDate: string;
-    group?: string;
+    // Propriété "group" supprimée
 }
 
 const CalendarDetail: React.FC = () => {
@@ -34,13 +34,6 @@ const CalendarDetail: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [showModal, setShowModal] = useState<boolean>(false);
     const [currentEvent, setCurrentEvent] = useState<Event | null>(null);
-
-    // Extrait le nom du module à partir du titre (avant ':' ou '-')
-    const extractModule = (title: string): string => {
-        const regex: RegExp = /^([^:-]+)[ :-]/;
-        const match = title.match(regex);
-        return match ? match[1].trim() : '';
-    };
 
     useEffect(() => {
         if (!id) {
@@ -68,11 +61,7 @@ const CalendarDetail: React.FC = () => {
             .then((response: Response) => response.json())
             .then((data: { calendarName: string; events: Event[] }) => {
                 setCalendarName(data.calendarName);
-                const eventsWithGroup: Event[] = data.events.map((ev: Event) => ({
-                    ...ev,
-                    group: ev.group || extractModule(ev.summary),
-                }));
-                setEvents(eventsWithGroup);
+                setEvents(data.events);
                 setLoading(false);
             })
             .catch((err: unknown) => {
@@ -95,7 +84,7 @@ const CalendarDetail: React.FC = () => {
     const filteredEvents: Event[] = sortedEvents().filter((ev: Event) => {
         if (!searchQuery.trim()) return true;
         const tokens: string[] = searchQuery.toLowerCase().split(' ').filter((token: string) => token !== '');
-        const text: string = (ev.summary + ' ' + (ev.group || '')).toLowerCase();
+        const text: string = ev.summary.toLowerCase();
         return tokens.every((token: string) => text.includes(token));
     });
 
@@ -171,14 +160,12 @@ const CalendarDetail: React.FC = () => {
                                     <strong className="event-icon">📅 {event.summary}</strong>
                                     <br />
                                     <span className="event-meta">
-                    Début : {new Date(event.startDate).toLocaleDateString()} à{" "}
+                                        Début : {new Date(event.startDate).toLocaleDateString()} à{" "}
                                         {new Date(event.startDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                         <br />
-                    Fin : {new Date(event.endDate).toLocaleDateString()} à{" "}
+                                        Fin : {new Date(event.endDate).toLocaleDateString()} à{" "}
                                         {new Date(event.endDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </span>
-                                    <br />
-                                    <span className="event-meta">Groupe : {event.group || '-'}</span>
+                                    </span>
                                 </div>
                                 <Button className="button-primary" size="sm" onClick={() => handleEditEvent(event)}>
                                     Modifier
