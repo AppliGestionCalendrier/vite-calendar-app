@@ -1,15 +1,20 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Modal, Form } from 'react-bootstrap';
 import '../css/CalendarDetail.css';
-import CreateEvent from "./CreateEvent.tsx";
+import CreateEvent from "./CreateEvent";
 
-interface CalendarDetailParams {
+interface CalendarDetailRouteParams extends Record<string, string | undefined> {
     id: string;
-    [key: string]: string | undefined;
 }
 
-interface Event {
+export interface Calendar {
+    id: string;
+    name: string;
+    url?: string;
+}
+
+export interface Event {
     uid: string;
     summary: string;
     startDate: string;
@@ -18,146 +23,125 @@ interface Event {
 }
 
 const CalendarDetail: React.FC = () => {
-    const { id } = useParams<CalendarDetailParams>();
+    const { id } = useParams<CalendarDetailRouteParams>();
+
     const [calendarName, setCalendarName] = useState<string>('');
     const [events, setEvents] = useState<Event[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string>('');
 
-    // États pour le tri et la recherche
     const [sortKey, setSortKey] = useState<'date' | 'alphabetical'>('date');
     const [searchQuery, setSearchQuery] = useState<string>('');
-
-    // États pour la gestion du modal (création / édition)
-    const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState<boolean>(false);
     const [currentEvent, setCurrentEvent] = useState<Event | null>(null);
-    const [isCreating, setIsCreating] = useState<boolean>(false);
-    const [selectedGroup, setSelectedGroup] = useState<string>('');
-    const [newGroupName, setNewGroupName] = useState<string>('');
 
-    // Fonction pour extraire le nom du module depuis le titre de l’événement
+    // Extrait le nom du module à partir du titre (avant ':' ou '-')
     const extractModule = (title: string): string => {
-        // On suppose que le module se trouve avant un ':' ou un '-'
-        const regex = /^([^:-]+)[ :-]/;
+        const regex: RegExp = /^([^:-]+)[ :-]/;
         const match = title.match(regex);
         return match ? match[1].trim() : '';
     };
 
     useEffect(() => {
-        console.log("ID récupéré :", id);
+        if (!id) {
+            setError("ID manquant");
+            setLoading(false);
+            return;
+        }
 
-        const storedCalendars = localStorage.getItem('calendars');
+        const storedCalendars: string | null = localStorage.getItem('calendars');
         if (!storedCalendars) {
             setError("Aucun calendrier trouvé");
             setLoading(false);
             return;
         }
 
-        const calendars = JSON.parse(storedCalendars);
-        const calendar = calendars.find((cal: any) => cal.id === id);
+        const calendars: Calendar[] = JSON.parse(storedCalendars);
+        const calendar: Calendar | undefined = calendars.find((cal: Calendar) => cal.id === id);
         if (!calendar || !calendar.url) {
             setError("Calendrier introuvable ou URL manquante");
             setLoading(false);
             return;
         }
 
-        // Récupération des événements depuis le backend et ajout du groupe extrait si absent
         fetch(`http://localhost:3000/api/events?url=${encodeURIComponent(calendar.url)}`)
-            .then(response => response.json())
-            .then(data => {
+            .then((response: Response) => response.json())
+            .then((data: { calendarName: string; events: Event[] }) => {
                 setCalendarName(data.calendarName);
-                const eventsWithGroup = data.events.map((ev: Event) => ({
+                const eventsWithGroup: Event[] = data.events.map((ev: Event) => ({
                     ...ev,
-                    group: ev.group || extractModule(ev.summary)
+                    group: ev.group || extractModule(ev.summary),
                 }));
                 setEvents(eventsWithGroup);
                 setLoading(false);
             })
-            .catch(err => {
+            .catch((err: unknown) => {
                 console.error("Erreur de requête :", err);
                 setError("Erreur lors de la récupération des événements");
                 setLoading(false);
             });
     }, [id]);
 
-    // Tri des événements
-    const sortedEvents = () => {
-        let sorted = [...events];
+    const sortedEvents = (): Event[] => {
+        const sorted: Event[] = [...events];
         if (sortKey === 'date') {
-            sorted.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+            sorted.sort((a: Event, b: Event) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
         } else if (sortKey === 'alphabetical') {
-            sorted.sort((a, b) => a.summary.localeCompare(b.summary));
+            sorted.sort((a: Event, b: Event) => a.summary.localeCompare(b.summary));
         }
         return sorted;
     };
 
-    // Filtrage des événements selon la recherche.
-    // Chaque mot (séparé par un espace) doit être présent dans le résumé ou le groupe (logique AND).
-    const filteredEvents = sortedEvents().filter(ev => {
+    const filteredEvents: Event[] = sortedEvents().filter((ev: Event) => {
         if (!searchQuery.trim()) return true;
-        const tokens = searchQuery.toLowerCase().split(' ').filter(token => token !== '');
-        const text = (ev.summary + ' ' + (ev.group || '')).toLowerCase();
-        return tokens.every(token => text.includes(token));
+        const tokens: string[] = searchQuery.toLowerCase().split(' ').filter((token: string) => token !== '');
+        const text: string = (ev.summary + ' ' + (ev.group || '')).toLowerCase();
+        return tokens.every((token: string) => text.includes(token));
     });
 
-    const handleEditEvent = (event: Event) => {
+    const handleEditEvent = (event: Event): void => {
         setCurrentEvent(event);
-        setSelectedGroup(event.group || '');
-        setNewGroupName('');
-        setIsCreating(false);
         setShowModal(true);
     };
 
-    const saveEventChanges = () => {
+    const saveEventChanges = (): void => {
         if (currentEvent) {
-            let updatedGroup = currentEvent.group;
-            if (selectedGroup === 'new') {
-                if (newGroupName.trim() !== '') {
-                    updatedGroup = newGroupName;
-                }
-            } else {
-                updatedGroup = selectedGroup;
-            }
-            const updatedEvent = { ...currentEvent, group: updatedGroup };
-
-            if (isCreating) {
-                setEvents(prev => [...prev, updatedEvent]);
-            } else {
-                setEvents(prev => prev.map(ev => ev.uid === updatedEvent.uid ? updatedEvent : ev));
-            }
+            setEvents((prev: Event[]) =>
+                prev.map((ev: Event) => (ev.uid === currentEvent.uid ? currentEvent : ev))
+            );
             setShowModal(false);
             setCurrentEvent(null);
         }
     };
 
-    if (loading)
-        return <div className="calendar-page">Chargement...</div>;
-    if (error)
-        return <div className="calendar-page text-danger">{error}</div>;
+    if (loading) return <div className="calendar-page">Chargement...</div>;
+    if (error) return <div className="calendar-page text-danger">{error}</div>;
 
     return (
         <div className="calendar-page">
             <div className="calendar-container">
                 <h2 className="calendar-title">{calendarName || "Calendrier"}</h2>
-
-                {/* Bouton pour créer un nouvel événement */}
                 <div className="mb-3 d-flex justify-content-between">
-                    {/* Bouton pour créer un événement */}
-                    <CreateEvent onEventCreated={(event) => setEvents([...events, event])} />
+                    <CreateEvent onEventCreated={(event: Event) => setEvents([...events, event])} />
                     <div className="mt-4">
-                    <Button className="button-secondary mb-3" onClick={() => window.location.href = "http://localhost:3500"}>
-                        Retour aux calendriers
-                    </Button>
+                        <Button
+                            className="button-secondary mb-3"
+                            onClick={() => {
+                                window.location.href = "http://localhost:3500";
+                            }}
+                        >
+                            Retour aux calendriers
+                        </Button>
                     </div>
                 </div>
-
-                {/* Filtres et tris */}
                 <div className="row mb-3">
                     <div className="col-md-6 mb-2">
                         <Form.Select
                             className="select-custom"
                             value={sortKey}
-                            onChange={(e) => setSortKey(e.target.value as 'date' | 'alphabetical')}
+                            onChange={(e: React.ChangeEvent<HTMLSelectElement>): void =>
+                                setSortKey(e.target.value as 'date' | 'alphabetical')
+                            }
                         >
                             <option value="date">Trier par date</option>
                             <option value="alphabetical">Trier par ordre alphabétique</option>
@@ -169,19 +153,19 @@ const CalendarDetail: React.FC = () => {
                                 type="text"
                                 placeholder="Rechercher par mots-clés..."
                                 value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
+                                    setSearchQuery(e.target.value)
+                                }
                                 className="search-bar"
                             />
                         </Form.Group>
                     </div>
                 </div>
-
-                {/* Liste des événements */}
                 {filteredEvents.length === 0 ? (
                     <p className="event-meta">Aucun événement trouvé.</p>
                 ) : (
                     <ul className="event-list">
-                        {filteredEvents.map(event => (
+                        {filteredEvents.map((event: Event) => (
                             <li key={event.uid} className="event-item d-flex justify-content-between align-items-center">
                                 <div>
                                     <strong className="event-icon">📅 {event.summary}</strong>
@@ -203,11 +187,9 @@ const CalendarDetail: React.FC = () => {
                         ))}
                     </ul>
                 )}
-
-                {/* Modal pour création/édition d'événement */}
                 <Modal show={showModal} onHide={() => setShowModal(false)}>
                     <Modal.Header closeButton>
-                        <Modal.Title>{isCreating ? 'Créer un événement' : "Modifier l'événement"}</Modal.Title>
+                        <Modal.Title>Modifier l'événement</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         {currentEvent && (
@@ -217,7 +199,7 @@ const CalendarDetail: React.FC = () => {
                                     <Form.Control
                                         type="text"
                                         value={currentEvent.summary}
-                                        onChange={(e) =>
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
                                             setCurrentEvent({ ...currentEvent, summary: e.target.value })
                                         }
                                     />
@@ -227,7 +209,7 @@ const CalendarDetail: React.FC = () => {
                                     <Form.Control
                                         type="date"
                                         value={currentEvent.startDate.split('T')[0]}
-                                        onChange={(e) => {
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                                             const datePart = e.target.value;
                                             const timePart = currentEvent.startDate.split('T')[1] || '09:00';
                                             setCurrentEvent({ ...currentEvent, startDate: `${datePart}T${timePart}` });
@@ -239,7 +221,7 @@ const CalendarDetail: React.FC = () => {
                                     <Form.Control
                                         type="time"
                                         value={(currentEvent.startDate.split('T')[1] || '09:00').substring(0, 5)}
-                                        onChange={(e) => {
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                                             const timePart = e.target.value;
                                             const datePart = currentEvent.startDate.split('T')[0];
                                             setCurrentEvent({ ...currentEvent, startDate: `${datePart}T${timePart}` });
@@ -251,7 +233,7 @@ const CalendarDetail: React.FC = () => {
                                     <Form.Control
                                         type="date"
                                         value={currentEvent.endDate.split('T')[0]}
-                                        onChange={(e) => {
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                                             const datePart = e.target.value;
                                             const timePart = currentEvent.endDate.split('T')[1] || '10:00';
                                             setCurrentEvent({ ...currentEvent, endDate: `${datePart}T${timePart}` });
@@ -263,7 +245,7 @@ const CalendarDetail: React.FC = () => {
                                     <Form.Control
                                         type="time"
                                         value={(currentEvent.endDate.split('T')[1] || '10:00').substring(0, 5)}
-                                        onChange={(e) => {
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                                             const timePart = e.target.value;
                                             const datePart = currentEvent.endDate.split('T')[0];
                                             setCurrentEvent({ ...currentEvent, endDate: `${datePart}T${timePart}` });
