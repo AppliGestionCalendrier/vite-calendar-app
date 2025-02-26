@@ -145,7 +145,7 @@ const CalendarDetail: React.FC = () => {
                     {/* Bouton pour créer un événement */}
                     <CreateEvent onEventCreated={(event) => setEvents([...events, event])} />
                     <div className="mt-4">
-                    <Button className="button-secondary mb-3" onClick={() => window.location.href = "http://localhost:3001"}>
+                    <Button className="button-secondary mb-3" onClick={() => window.location.href = "http://localhost:3500"}>
                         Retour aux calendriers
                     </Button>
                     </div>
