@@ -1,7 +1,7 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CalendarList from './components/CalendarList';
 import CalendarDetail from './components/CalendarDetailParams';
-import React from 'react';
 
 const App: React.FC = () => {
     return (
