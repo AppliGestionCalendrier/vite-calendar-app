@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getCalendars, Calendar } from '../services/fakeApi';
 import '../css/CalendarList.css';
@@ -19,6 +19,7 @@ const CalendarList: React.FC = () => {
             })
             .catch(err => {
                 setError('Erreur lors du chargement des calendriers');
+                setError(err);
                 setLoading(false);
             });
     }, []);
