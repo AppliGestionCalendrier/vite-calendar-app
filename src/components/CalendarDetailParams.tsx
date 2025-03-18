@@ -56,7 +56,7 @@ const CalendarDetail: React.FC = () => {
             return;
         }
 
-        fetch(`http://localhost:3000/api/events?url=${encodeURIComponent(calendar.url)}`)
+        fetch(`https://vite-calendar-app-seven.vercel.app/api/events?url=${encodeURIComponent(calendar.url)}`)
             .then((response: Response) => response.json())
             .then((data: { calendarName: string; events: Event[] }) => {
                 setCalendarName(data.calendarName);
