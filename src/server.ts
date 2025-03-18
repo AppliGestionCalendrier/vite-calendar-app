@@ -25,17 +25,14 @@ interface CalendarResponse {
 // ✅ Fonction pour parser un fichier iCal
 function parseICal(icalString: string): CalendarResponse {
     try {
-        console.log("Début du parsing iCal...");
         const jcalData = ICAL.parse(icalString);
         const comp = new ICAL.Component(jcalData);
 
         // ✅ Correction du type calendarName
         const calendarName = String(comp.getFirstPropertyValue('x-wr-calname') || "Calendrier sans nom");
-        console.log("Nom du calendrier :", calendarName);
 
         // Récupérer les événements
         const vevents = comp.getAllSubcomponents('vevent');
-        console.log("Nombre d'événements trouvés :", vevents.length);
 
         const events = vevents.map((vevent: any) => {
             const event = new ICAL.Event(vevent);
@@ -47,7 +44,6 @@ function parseICal(icalString: string): CalendarResponse {
             };
         });
 
-        console.log("Événements parsés :", events);
         return { calendarName, events };
     } catch (error) {
         console.error("Erreur de parsing iCal :", error);
@@ -68,8 +64,6 @@ app.get('/api/events', async (req:any, res:any) => {
     if (url.startsWith('webcal://')) {
         url = url.replace('webcal://', 'https://');
     }
-
-    console.log("URL après conversion :", url);
 
     try {
         const response = await fetch(url, {
