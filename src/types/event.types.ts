@@ -1,9 +1,9 @@
 export type Event = {
   uid: string;
   summary: string;
-  description: string;
-  startDate: string;
-  endDate: string;
+  description?: string;
+  startDate: Date;
+  endDate: Date;
   location?: string;
   url?: string;
 };

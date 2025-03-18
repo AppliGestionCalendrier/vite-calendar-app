@@ -189,23 +189,23 @@ const CalendarDetail: React.FC = () => {
                                     <Form.Label>Date de début</Form.Label>
                                     <Form.Control
                                         type="date"
-                                        value={currentEvent.startDate.split('T')[0]}
+                                        value={currentEvent.startDate.toISOString().split('T')[0]}
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                                             const datePart = e.target.value;
-                                            const timePart = currentEvent.startDate.split('T')[1] || '09:00';
-                                            setCurrentEvent({ ...currentEvent, startDate: `${datePart}T${timePart}` });
+                                            const timePart = currentEvent.startDate.toISOString().split('T')[1] || '09:00';
+                                            setCurrentEvent({ ...currentEvent, startDate: new Date(`${datePart}T${timePart}`) });
                                         }}
-                                    />
+                                    />œ
                                 </Form.Group>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Heure de début</Form.Label>
                                     <Form.Control
                                         type="time"
-                                        value={(currentEvent.startDate.split('T')[1] || '09:00').substring(0, 5)}
+                                        value={(currentEvent.startDate.toISOString().split('T')[1] || '09:00').substring(0, 5)}
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                                             const timePart = e.target.value;
-                                            const datePart = currentEvent.startDate.split('T')[0];
-                                            setCurrentEvent({ ...currentEvent, startDate: `${datePart}T${timePart}` });
+                                            const datePart = currentEvent.startDate.toISOString().split('T')[0];
+                                            setCurrentEvent({ ...currentEvent, startDate: new Date(`${datePart}T${timePart}`) });
                                         }}
                                     />
                                 </Form.Group>
@@ -213,11 +213,11 @@ const CalendarDetail: React.FC = () => {
                                     <Form.Label>Date de fin</Form.Label>
                                     <Form.Control
                                         type="date"
-                                        value={currentEvent.endDate.split('T')[0]}
+                                        value={currentEvent.endDate.toISOString().split('T')[0]}
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                                             const datePart = e.target.value;
-                                            const timePart = currentEvent.endDate.split('T')[1] || '10:00';
-                                            setCurrentEvent({ ...currentEvent, endDate: `${datePart}T${timePart}` });
+                                            const timePart = currentEvent.endDate.toISOString().split('T')[1] || '10:00';
+                                            setCurrentEvent({ ...currentEvent, endDate: new Date(`${datePart}T${timePart}`) });
                                         }}
                                     />
                                 </Form.Group>
@@ -225,11 +225,11 @@ const CalendarDetail: React.FC = () => {
                                     <Form.Label>Heure de fin</Form.Label>
                                     <Form.Control
                                         type="time"
-                                        value={(currentEvent.endDate.split('T')[1] || '10:00').substring(0, 5)}
+                                        value={(currentEvent.endDate.toISOString().split('T')[1] || '10:00').substring(0, 5)}
                                         onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                                             const timePart = e.target.value;
-                                            const datePart = currentEvent.endDate.split('T')[0];
-                                            setCurrentEvent({ ...currentEvent, endDate: `${datePart}T${timePart}` });
+                                            const datePart = currentEvent.endDate.toISOString().split('T')[0];
+                                            setCurrentEvent({ ...currentEvent, endDate: new Date(`${datePart}T${timePart}`) });
                                         }}
                                     />
                                 </Form.Group>
