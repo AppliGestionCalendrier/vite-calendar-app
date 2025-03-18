@@ -106,12 +106,6 @@
     background-color: #444;
 }
 
-/* Icônes */
-.calendar-icon {
-    font-size: 20px;
-    margin-right: 10px;
-}
-
 /* Override des boutons Bootstrap */
 .btn-primary {
     background-color: #FFD700 !important; /* Doré */

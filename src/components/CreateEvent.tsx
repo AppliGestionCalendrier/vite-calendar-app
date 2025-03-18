@@ -1,70 +1,62 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Button, Form, Card } from "react-bootstrap";
 import * as chrono from "chrono-node";
 import "../css/CreateEvent.css";
-
-interface Event {
-    uid: string;
-    summary: string;
-    startDate: string;
-    endDate: string;
-}
+import { CreateEventProps, InputState, PreviewState, TimeRange, StopWord } from "../types/event.types";
 
 // 🔹 Fonction pour supprimer les mots inutiles (stopwords)
 const removeStopWords = (text: string) => {
-    const stopWords = ["de", "à", "le", "la", "les", "du", "des", "un", "une", "et", "en","prochain"];
+    const stopWords: StopWord[] = ["de", "à", "le", "la", "les", "du", "des", "un", "une", "et", "en","prochain"];
     return text
         .split(" ")
-        .filter((word) => !stopWords.includes(word.toLowerCase()))
+        .filter((word: string) => !stopWords.includes(word.toLowerCase()))
         .join(" ")
         .trim();
 };
 
-const CreateEvent: React.FC<{ onEventCreated: (event: Event) => void }> = ({ onEventCreated }) => {
-    const [inputText, setInputText] = useState("");
-    const [previewEvent, setPreviewEvent] = useState<Event | null>(null);
+const CreateEvent: React.FC<CreateEventProps> = ({ onEventCreated }) => {
+    const [inputText, setInputText] = useState<InputState>("");
+    const [previewEvent, setPreviewEvent] = useState<PreviewState>(null);
 
-    const handleInputChange = (text: string) => {
+    const handleInputChange = (text: string): void => {
         setInputText(text);
 
-        // ✅ Utilisation de chrono.fr pour une analyse en français
         const parsedResults = chrono.fr.parse(text, new Date(), { forwardDate: true });
-
         if (parsedResults.length === 0) {
             setPreviewEvent(null);
             return;
         }
 
-        // 🔹 Prendre la première date détectée
-        const parsedDate = parsedResults[0].start.date();
-        let eventStart = new Date(parsedDate);
-        let eventEnd = new Date(eventStart.getTime() + 60 * 60 * 1000); // Par défaut : +1h
+        const parsedDate: Date = parsedResults[0].start.date();
+        const eventStart: Date = new Date(parsedDate);
+        const eventEnd: Date = new Date(eventStart.getTime() + 60 * 60 * 1000); // +1h par défaut
 
-        // 🔹 Détection de la plage horaire (ex: "9h à 15h")
         const timeRangeMatch = text.match(/(\d{1,2}h(\d{1,2})?)\s*(à|-)\s*(\d{1,2}h(\d{1,2})?)/i);
         if (timeRangeMatch) {
             const [, startTime, , , endTime] = timeRangeMatch;
-            const startHour = parseInt(startTime.replace("h", "").trim());
-            const endHour = parseInt(endTime.replace("h", "").trim());
 
-            eventStart.setHours(startHour, 0);
-            eventEnd.setHours(endHour, 0);
+            const timeRange: TimeRange = {
+                startHour: parseInt(startTime.replace("h", "").trim()),
+                endHour: parseInt(endTime.replace("h", "").trim())
+            };
+
+            eventStart.setHours(timeRange.startHour, 0);
+            eventEnd.setHours(timeRange.endHour, 0);
         }
 
-        // 🔹 Extraction du résumé sans la date et suppression des mots inutiles
-        const words = text.split(" ");
-        const filteredWords = words.filter((word) => chrono.fr.parse(word).length === 0);
-        const eventSummary = removeStopWords(filteredWords.join(" ")) || "Nouvel événement";
+        const words: string[] = text.split(" ");
+        const filteredWords: string[] = words.filter((word: string) => chrono.fr.parse(word).length === 0);
+        const eventSummary: string = removeStopWords(filteredWords.join(" ")) || "Nouvel événement";
 
         setPreviewEvent({
             uid: Date.now().toString(),
             summary: eventSummary,
-            startDate: eventStart.toISOString(),
-            endDate: eventEnd.toISOString(),
+            startDate: eventStart,
+            endDate: eventEnd,
         });
     };
 
-    const handleCreateEvent = () => {
+    const handleCreateEvent = (): void => {
         if (!previewEvent) {
             alert("Impossible de créer un événement, date invalide !");
             return;
@@ -76,19 +68,16 @@ const CreateEvent: React.FC<{ onEventCreated: (event: Event) => void }> = ({ onE
 
     return (
         <div className="create-event-container">
-            {/* 🔹 Champ de texte pour saisir l'événement */}
             <Form.Control
                 type="text"
                 placeholder="Ex: Vendredi je travaille de 9h à 15h"
                 value={inputText}
-                onChange={(e) => handleInputChange(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>): void => handleInputChange(e.target.value)}
                 className="event-input"
             />
             <Button className="button-primary" onClick={handleCreateEvent} disabled={!previewEvent}>
                 ➕ Ajouter
             </Button>
-
-            {/* 🔹 Aperçu dynamique de l'événement */}
             {inputText.trim() && (
                 <Card className="event-preview">
                     <Card.Body>
@@ -97,10 +86,10 @@ const CreateEvent: React.FC<{ onEventCreated: (event: Event) => void }> = ({ onE
                             <>
                                 <h4>{previewEvent.summary}</h4>
                                 <p>
-                                    <strong>Début :</strong> {new Date(previewEvent.startDate).toLocaleString()}
+                                    <strong>Début :</strong> {previewEvent.startDate.toLocaleString()}
                                 </p>
                                 <p>
-                                    <strong>Fin :</strong> {new Date(previewEvent.endDate).toLocaleString()}
+                                    <strong>Fin :</strong> {previewEvent.endDate.toLocaleString()}
                                 </p>
                             </>
                         ) : (
