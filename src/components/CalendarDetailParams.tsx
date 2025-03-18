@@ -126,6 +126,17 @@ const CalendarDetail: React.FC = () => {
                         </Form.Group>
                     </div>
                 </div>
+                <div className={"sortByGroup"}>
+                    <Form.Select
+                        className="select-custom"
+                        value={sortKey}
+                        onChange={(e: React.ChangeEvent<HTMLSelectElement>): void =>
+                            setSortKey(e.target.value as 'date' | 'alphabetical')
+                        }
+                    >
+                        <option value="date">Trier par module</option>
+                    </Form.Select>
+                </div>
                 {filteredEvents.length === 0 ? (
                     <p className="event-meta">Aucun événement trouvé.</p>
                 ) : (

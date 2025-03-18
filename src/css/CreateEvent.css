@@ -37,3 +37,8 @@
 .event-preview:hover {
     transform: scale(1.02);
 }
+
+.group-event-title {
+    display: flex;
+    gap: 15px;
+}

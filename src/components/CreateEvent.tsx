@@ -68,16 +68,18 @@ const CreateEvent: React.FC<CreateEventProps> = ({ onEventCreated }) => {
 
     return (
         <div className="create-event-container">
-            <Form.Control
-                type="text"
-                placeholder="Ex: Vendredi je travaille de 9h à 15h"
-                value={inputText}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>): void => handleInputChange(e.target.value)}
-                className="event-input"
-            />
-            <Button className="button-primary" onClick={handleCreateEvent} disabled={!previewEvent}>
-                ➕ Ajouter
-            </Button>
+            <div className={"group-event-title"}>
+                <Form.Control
+                    type="text"
+                    placeholder="Ex: Vendredi je travaille de 9h à 15h"
+                    value={inputText}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => handleInputChange(e.target.value)}
+                    className="event-input"
+                />
+                <Button className="button-primary" onClick={handleCreateEvent} disabled={!previewEvent}>
+                    Ajouter
+                </Button>
+            </div>
             {inputText.trim() && (
                 <Card className="event-preview">
                     <Card.Body>
