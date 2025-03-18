@@ -9,12 +9,12 @@ export type Event = {
 };
 
 export type TimeRange = {
-    startHour: number;
-    endHour: number;
+  startHour: number;
+  endHour: number;
 };
 
 export type CreateEventProps = {
-    onEventCreated: (event: Event) => void;
+  onEventCreated: (event: Event) => void;
 };
 
 export type InputState = string;
