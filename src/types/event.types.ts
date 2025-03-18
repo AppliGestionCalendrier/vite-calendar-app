@@ -1,8 +1,8 @@
 export type Event = {
     uid: string;
     summary: string;
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
 }
 
 export type TimeRange = {

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button, Modal, Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import '../css/CalendarDetail.css';
 import CreateEvent from "./CreateEvent";
+import { Event } from "../types/event.types.ts";
 
 interface CalendarDetailRouteParams extends Record<string, string | undefined> {
     id: string;
@@ -12,13 +13,6 @@ export interface Calendar {
     id: string;
     name: string;
     url?: string;
-}
-
-export interface Event {
-    uid: string;
-    summary: string;
-    startDate: string;
-    endDate: string;
 }
 
 const CalendarDetail: React.FC = () => {
@@ -31,8 +25,6 @@ const CalendarDetail: React.FC = () => {
 
     const [sortKey, setSortKey] = useState<'date' | 'alphabetical'>('date');
     const [searchQuery, setSearchQuery] = useState<string>('');
-    const [showModal, setShowModal] = useState<boolean>(false);
-    const [currentEvent, setCurrentEvent] = useState<Event | null>(null);
 
     useEffect(() => {
         if (!id) {
@@ -87,21 +79,6 @@ const CalendarDetail: React.FC = () => {
         return tokens.every((token: string) => text.includes(token));
     });
 
-    const handleEditEvent = (event: Event): void => {
-        setCurrentEvent(event);
-        setShowModal(true);
-    };
-
-    const saveEventChanges = (): void => {
-        if (currentEvent) {
-            setEvents((prev: Event[]) =>
-                prev.map((ev: Event) => (ev.uid === currentEvent.uid ? currentEvent : ev))
-            );
-            setShowModal(false);
-            setCurrentEvent(null);
-        }
-    };
-
     if (loading) return <div className="calendar-page">Chargement...</div>;
     if (error) return <div className="calendar-page text-danger">{error}</div>;
 
@@ -115,7 +92,7 @@ const CalendarDetail: React.FC = () => {
                         <Button
                             className="button-secondary mb-3"
                             onClick={() => {
-                                window.location.href = "http://localhost:3500";
+                                window.location.href = "/";
                             }}
                         >
                             Retour aux calendriers
@@ -166,90 +143,10 @@ const CalendarDetail: React.FC = () => {
                                         {new Date(event.endDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                     </span>
                                 </div>
-                                <Button className="button-primary" size="sm" onClick={() => handleEditEvent(event)}>
-                                    Modifier
-                                </Button>
                             </li>
                         ))}
                     </ul>
                 )}
-                <Modal show={showModal} onHide={() => setShowModal(false)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Modifier l'événement</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        {currentEvent && (
-                            <Form>
-                                <Form.Group className="mb-3">
-                                    <Form.Label>Titre</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        value={currentEvent.summary}
-                                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-                                            setCurrentEvent({ ...currentEvent, summary: e.target.value })
-                                        }
-                                    />
-                                </Form.Group>
-                                <Form.Group className="mb-3">
-                                    <Form.Label>Date de début</Form.Label>
-                                    <Form.Control
-                                        type="date"
-                                        value={currentEvent.startDate.split('T')[0]}
-                                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                                            const datePart = e.target.value;
-                                            const timePart = currentEvent.startDate.split('T')[1] || '09:00';
-                                            setCurrentEvent({ ...currentEvent, startDate: `${datePart}T${timePart}` });
-                                        }}
-                                    />
-                                </Form.Group>
-                                <Form.Group className="mb-3">
-                                    <Form.Label>Heure de début</Form.Label>
-                                    <Form.Control
-                                        type="time"
-                                        value={(currentEvent.startDate.split('T')[1] || '09:00').substring(0, 5)}
-                                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                                            const timePart = e.target.value;
-                                            const datePart = currentEvent.startDate.split('T')[0];
-                                            setCurrentEvent({ ...currentEvent, startDate: `${datePart}T${timePart}` });
-                                        }}
-                                    />
-                                </Form.Group>
-                                <Form.Group className="mb-3">
-                                    <Form.Label>Date de fin</Form.Label>
-                                    <Form.Control
-                                        type="date"
-                                        value={currentEvent.endDate.split('T')[0]}
-                                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                                            const datePart = e.target.value;
-                                            const timePart = currentEvent.endDate.split('T')[1] || '10:00';
-                                            setCurrentEvent({ ...currentEvent, endDate: `${datePart}T${timePart}` });
-                                        }}
-                                    />
-                                </Form.Group>
-                                <Form.Group className="mb-3">
-                                    <Form.Label>Heure de fin</Form.Label>
-                                    <Form.Control
-                                        type="time"
-                                        value={(currentEvent.endDate.split('T')[1] || '10:00').substring(0, 5)}
-                                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                                            const timePart = e.target.value;
-                                            const datePart = currentEvent.endDate.split('T')[0];
-                                            setCurrentEvent({ ...currentEvent, endDate: `${datePart}T${timePart}` });
-                                        }}
-                                    />
-                                </Form.Group>
-                            </Form>
-                        )}
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button className="button-primary" variant="secondary" onClick={() => setShowModal(false)}>
-                            Annuler
-                        </Button>
-                        <Button className="button-success" onClick={saveEventChanges}>
-                            Sauvegarder
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
             </div>
         </div>
     );
