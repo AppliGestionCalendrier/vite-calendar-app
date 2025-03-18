@@ -115,7 +115,7 @@ const CalendarDetail: React.FC = () => {
                         <Button
                             className="button-secondary mb-3"
                             onClick={() => {
-                                window.location.href = "http://localhost:3500";
+                                window.location.href = "/";
                             }}
                         >
                             Retour aux calendriers
