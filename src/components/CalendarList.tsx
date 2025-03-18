@@ -28,7 +28,7 @@ const CalendarList: React.FC = () => {
     const handleAddICal = async () => {
         if (icalUrl.trim() !== '') {
             try {
-                const response = await fetch(`http://localhost:3000/api/events?url=${encodeURIComponent(icalUrl)}`);
+                const response = await fetch(`https://ton-projet.vercel.app/api/events?url=${encodeURIComponent(icalUrl)}`);
                 if (!response.ok) {
                     throw new Error('Erreur lors de la récupération du nom du calendrier');
                 }
