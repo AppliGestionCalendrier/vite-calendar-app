@@ -1,9 +1,12 @@
 export type Event = {
-    uid: string;
-    summary: string;
-    startDate: Date;
-    endDate: Date;
-}
+  uid: string;
+  summary: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  location?: string;
+  url?: string;
+};
 
 export type TimeRange = {
     startHour: number;

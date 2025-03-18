@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Button, Modal, Form } from 'react-bootstrap';
 import '../css/CalendarDetail.css';
 import CreateEvent from "./CreateEvent";
+import { Event } from "../types/event.types";
 
 interface CalendarDetailRouteParams extends Record<string, string | undefined> {
     id: string;
@@ -14,12 +15,6 @@ export interface Calendar {
     url?: string;
 }
 
-export interface Event {
-    uid: string;
-    summary: string;
-    startDate: string;
-    endDate: string;
-}
 
 const CalendarDetail: React.FC = () => {
     const { id } = useParams<CalendarDetailRouteParams>();
