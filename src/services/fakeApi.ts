@@ -2,8 +2,10 @@
 
 export interface Calendar {
   id: string;
+  summary?: string;
   name: string;
   url?: string;
+  type: 'google' | 'ical';
 }
 
 export interface Event {
