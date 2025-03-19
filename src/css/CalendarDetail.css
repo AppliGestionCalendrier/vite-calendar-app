@@ -140,3 +140,26 @@
   margin-right: 0.5rem;
   color: #ffd700;
 }
+
+.event-summary table.event-summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.event-summary table.event-summary-table th,
+.event-summary table.event-summary-table td {
+  border: 1px solid #444;
+  padding: 12px;
+  text-align: left;
+}
+
+.event-summary table.event-summary-table th {
+  background-color: #333;
+  color: #ffd700;
+}
+
+.event-summary table.event-summary-table td {
+  background-color: #262626;
+  color: #ffd700;
+}
