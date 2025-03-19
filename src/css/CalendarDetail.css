@@ -2,98 +2,98 @@
 
 /* Page full screen avec un fond élégant */
 .calendar-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #2E2E2E, #1C1C1C); /* Dégradé doux */
-    color: #EDEDED; /* Texte blanc cassé */
-    font-family: 'Inter', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #2e2e2e, #1c1c1c); /* Dégradé doux */
+  color: #ededed; /* Texte blanc cassé */
+  font-family: 'Inter', sans-serif;
 }
 
 /* Conteneur principal */
 .calendar-container {
-    width: 85%;
-    max-width: 1000px;
-    background: #262626;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  width: 85%;
+  max-width: 1000px;
+  background: #262626;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* Titre principal */
 .calendar-title {
-    font-size: 28px;
-    font-weight: bold;
-    text-align: center;
-    padding-bottom: 15px;
-    border-bottom: 2px solid #FFD700; /* Accent doré */
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #ffd700; /* Accent doré */
 }
 
 /* Liste des événements */
 .event-list {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
 }
 
 /* Élément de la liste */
 .event-item {
-    background: #333;
-    padding: 20px;
-    margin-bottom: 12px;
-    border-radius: 8px;
-    border-left: 5px solid #FFD700; /* Barre accent doré */
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out, background 0.3s;
-    cursor: pointer;
+  background: #333;
+  padding: 20px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border-left: 5px solid #ffd700; /* Barre accent doré */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out, background 0.3s;
+  cursor: pointer;
 }
 
 .event-item:hover {
-    transform: scale(1.03);
-    background-color: #444;
+  transform: scale(1.03);
+  background-color: #444;
 }
 
 /* Nom de l'événement */
 .event-item strong {
-    font-size: 20px;
-    color: #FFD700;
+  font-size: 20px;
+  color: #ffd700;
 }
 
 /* Détails de l'événement */
 .event-meta {
-    font-size: 14px;
-    color: #BBB;
-    margin-top: 5px;
+  font-size: 14px;
+  color: #bbb;
+  margin-top: 5px;
 }
 
 /* Icônes */
 .event-icon {
-    font-size: 18px;
-    margin-right: 8px;
-    color: #FFD700;
+  font-size: 18px;
+  margin-right: 8px;
+  color: #ffd700;
 }
 
 /* Style pour les inputs de formulaire */
 .form-control {
-    background-color: #333 !important;
-    color: #FFD700 !important;
-    border: 1px solid #FFD700 !important;
-    border-radius: 6px;
-    padding: 12px !important;
-    font-size: 16px !important;
+  background-color: #333 !important;
+  color: #ffd700 !important;
+  border: 1px solid #ffd700 !important;
+  border-radius: 6px;
+  padding: 12px !important;
+  font-size: 16px !important;
 }
 
 /* Barre de recherche personnalisée */
 .search-bar {
-    background-color: #333 !important;
-    color: #FFD700 !important;
-    border: 1px solid #FFD700 !important;
-    border-radius: 6px;
-    padding: 12px !important;
-    font-size: 16px !important;
-    width: 100%;
+  background-color: #333 !important;
+  color: #ffd700 !important;
+  border: 1px solid #ffd700 !important;
+  border-radius: 6px;
+  padding: 12px !important;
+  font-size: 16px !important;
+  width: 100%;
 }
 .search-bar::placeholder {
-    color: #FFD700 !important;
+  color: #ffd700 !important;
 }

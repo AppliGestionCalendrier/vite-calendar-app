@@ -1,17 +1,20 @@
 export type Event = {
-    uid: string;
-    summary: string;
-    startDate: Date;
-    endDate: Date;
-}
+  uid: string;
+  summary: string;
+  description?: string;
+  startDate: Date;
+  endDate: Date;
+  location?: string;
+  url?: string;
+};
 
 export type TimeRange = {
-    startHour: number;
-    endHour: number;
+  startHour: number;
+  endHour: number;
 };
 
 export type CreateEventProps = {
-    onEventCreated: (event: Event) => void;
+  onEventCreated: (event: Event) => void;
 };
 
 export type InputState = string;
