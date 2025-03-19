@@ -128,7 +128,7 @@ const CalendarList: React.FC = () => {
                                         className="calendar-list-item d-flex justify-content-between align-items-center w-100"
                                     >
                                         <Link
-                                            to={`/calendars/${calendar.id}`}
+                                            to={`/calendars/${calendar.id}?type=ical`}
                                             className="calendar-name text-decoration-none text-light w-75 text-truncate"
                                         >
                                             📅 {calendar.name}
@@ -147,7 +147,7 @@ const CalendarList: React.FC = () => {
 
                             {/* Affichage des calendriers Google */}
                             {googleCalendars.length > 0 ? (
-                                googleCalendars.map((calendar) => (
+                                googleCalendars.map((calendar: Calendar) => (
                                     <div
                                         key={calendar.id}
                                         className="calendar-list-item d-flex justify-content-between align-items-center w-100"

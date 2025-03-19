@@ -1,5 +1,6 @@
 export type Event = {
   uid: string;
+  id?: string;
   summary: string;
   description?: string;
   startDate: Date;
