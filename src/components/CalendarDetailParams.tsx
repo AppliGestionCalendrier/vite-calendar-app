@@ -6,7 +6,6 @@ import CreateEvent from './CreateEvent';
 import { Event } from '../types/event.types';
 import EventCalendar from './EventCalendar';
 
-// Import des styles pour DevExtreme
 import 'devextreme/dist/css/dx.light.css';
 
 interface CalendarDetailRouteParams extends Record<string, string | undefined> {
@@ -31,7 +30,6 @@ const CalendarDetail: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list');
   
-  // Effet pour basculer automatiquement en vue liste lors d'une recherche
   useEffect(() => {
     if (searchQuery.trim() !== '') {
       setViewMode('list');
@@ -78,7 +76,6 @@ const CalendarDetail: React.FC = () => {
         });
   }, [id]);
 
-  // Fonction de tri des événements selon le critère sélectionné
   const sortedEvents = (): Event[] => {
     const sorted: Event[] = [...events];
     if (sortKey === 'date') {
@@ -91,7 +88,6 @@ const CalendarDetail: React.FC = () => {
     return sorted;
   };
 
-  // Filtrage des événements selon le texte entré dans la barre de recherche
   const filteredEvents: Event[] = sortedEvents().filter((ev: Event) => {
     if (!searchQuery.trim()) return true;
     const tokens: string[] = searchQuery
@@ -102,13 +98,12 @@ const CalendarDetail: React.FC = () => {
     return tokens.every((token: string) => text.includes(token));
   });
 
-  // Agrégation des événements pour calculer la durée totale (en heures) pour chaque événement distinct (basé sur "summary")
   const aggregatedEvents = useMemo(() => {
     if (!searchQuery.trim()) return {};
     return filteredEvents.reduce((acc, event) => {
       const start = new Date(event.startDate).getTime();
       const end = new Date(event.endDate).getTime();
-      const duration = (end - start) / (1000 * 60 * 60); // conversion en heures
+      const duration = (end - start) / (1000 * 60 * 60);
       if (acc[event.summary]) {
         acc[event.summary] += duration;
       } else {
@@ -166,7 +161,6 @@ const CalendarDetail: React.FC = () => {
             </div>
           </div>
 
-          {/* Toggle entre vue liste et vue calendrier */}
           <div className="view-selector mb-3 d-flex justify-content-end">
             <ButtonGroup>
               <Button 
@@ -192,17 +186,24 @@ const CalendarDetail: React.FC = () => {
             }
           </div>
 
-          {/* Section récapitulative des événements distincts avec la durée totale, affichée lors d'une recherche */}
           {searchQuery.trim() && (
               <section className="event-summary mb-3">
-                <h3>Résumé des événements</h3>
-                <ul>
+                <table className="event-summary-table">
+                  <thead>
+                  <tr>
+                    <th>Événement</th>
+                    <th>Durée (heures)</th>
+                  </tr>
+                  </thead>
+                  <tbody>
                   {Object.entries(aggregatedEvents).map(([summary, totalHours]) => (
-                      <li key={summary}>
-                        {summary} – {totalHours.toFixed(2)} heure{totalHours > 1 ? 's' : ''}
-                      </li>
+                      <tr key={summary}>
+                        <td>{summary}</td>
+                        <td>{totalHours.toFixed(2)}</td>
+                      </tr>
                   ))}
-                </ul>
+                  </tbody>
+                </table>
               </section>
           )}
 
