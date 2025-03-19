@@ -4,151 +4,151 @@
 
 /* Page en grand écran avec un fond épuré */
 .calendar-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #2E2E2E, #1C1C1C); /* Dégradé élégant */
-    color: #EDEDED; /* Blanc cassé */
-    font-family: 'Inter', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #2e2e2e, #1c1c1c); /* Dégradé élégant */
+  color: #ededed; /* Blanc cassé */
+  font-family: 'Inter', sans-serif;
 }
 
 /* Conteneur principal */
 .calendar-container {
-    width: 90%;
-    max-width: 1000px;
-    background: #262626;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 1000px;
+  background: #262626;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* Titre principal */
 .calendar-title {
-    font-size: 28px;
-    font-weight: bold;
-    text-align: center;
-    padding-bottom: 15px;
-    border-bottom: 2px solid #FFD700; /* Doré */
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #ffd700; /* Doré */
 }
 
 /* Section Formulaires */
 .add-calendar-form {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 20px;
 }
 
 .add-calendar-input {
-    flex: 1;
-    padding: 12px;
-    font-size: 16px;
-    border-radius: 6px;
-    border: none;
-    background-color: #333;
-    color: #FFD700; /* Doré */
-    outline: none;
+  flex: 1;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: none;
+  background-color: #333;
+  color: #ffd700; /* Doré */
+  outline: none;
 }
 
 .add-calendar-button {
-    padding: 12px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
 }
 
 .button-primary {
-    background-color: #FFD700; /* Doré */
-    color: #121212;
-    font-weight: bold;
+  background-color: #ffd700; /* Doré */
+  color: #121212;
+  font-weight: bold;
 }
 
 .button-primary:hover {
-    background-color: #FFC107;
+  background-color: #ffc107;
 }
 
 .button-success {
-    background-color: #4CAF50;
-    color: white;
-    font-weight: bold;
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
 }
 
 .button-success:hover {
-    background-color: #388E3C;
+  background-color: #388e3c;
 }
 
 /* Liste des calendriers */
 .calendar-list {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
 .calendar-list-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #333;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 8px;
-    border-left: 5px solid #FFD700; /* Accent visuel */
-    box-shadow: 0px 2px 5px rgba(255, 255, 255, 0.1);
-    transition: transform 0.2s ease-in-out;
-    cursor: pointer;
-    color: #EDEDED;
-    text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #333;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border-left: 5px solid #ffd700; /* Accent visuel */
+  box-shadow: 0px 2px 5px rgba(255, 255, 255, 0.1);
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+  color: #ededed;
+  text-decoration: none;
 }
 
 .calendar-list-item:hover {
-    transform: scale(1.03);
-    background-color: #444;
+  transform: scale(1.03);
+  background-color: #444;
 }
 
 /* Override des boutons Bootstrap */
 .btn-primary {
-    background-color: #FFD700 !important; /* Doré */
-    border-color: #FFD700 !important;
-    color: #121212 !important;
-    font-weight: bold;
+  background-color: #ffd700 !important; /* Doré */
+  border-color: #ffd700 !important;
+  color: #121212 !important;
+  font-weight: bold;
 }
 
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active {
-    background-color: #FFC107 !important;
-    border-color: #FFC107 !important;
-    color: #121212 !important;
+  background-color: #ffc107 !important;
+  border-color: #ffc107 !important;
+  color: #121212 !important;
 }
 
 .btn-success {
-    background-color: #4CAF50 !important;
-    border-color: #4CAF50 !important;
-    color: white !important;
-    font-weight: bold;
+  background-color: #4caf50 !important;
+  border-color: #4caf50 !important;
+  color: white !important;
+  font-weight: bold;
 }
 
 .btn-success:hover,
 .btn-success:focus,
 .btn-success:active {
-    background-color: #388E3C !important;
-    border-color: #388E3C !important;
-    color: white !important;
+  background-color: #388e3c !important;
+  border-color: #388e3c !important;
+  color: white !important;
 }
 
 /* Override des selects Bootstrap */
 .form-select,
 .select-custom {
-    background-color: #333 !important;
-    color: #FFD700 !important;
-    border: none !important;
-    border-radius: 6px;
-    padding: 12px !important;
-    font-size: 16px !important;
-    cursor: pointer;
+  background-color: #333 !important;
+  color: #ffd700 !important;
+  border: none !important;
+  border-radius: 6px;
+  padding: 12px !important;
+  font-size: 16px !important;
+  cursor: pointer;
 }
 
 .trash {
-    margin-left: 5px;
+  margin-left: 5px;
 }
