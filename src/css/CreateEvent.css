@@ -19,7 +19,7 @@
   font-size: 1rem;
   border-radius: var(--border-radius-sm);
   border: 1px solid var(--border-color);
-  background-color: var(--background-input);
+  background-color: var(--background-input) !important;
   color: var(--text-primary);
   outline: none;
   transition: var(--transition-normal);
@@ -37,7 +37,7 @@
 
 /* Carte d'aperçu de l'événement */
 .event-preview {
-  background-color: var(--background-card);
+  background-color: var(--background-card) !important;
   color: var(--text-primary);
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
@@ -94,6 +94,7 @@
 
 .event-preview p:last-child {
   margin-bottom: 0;
+  color: var(--text-primary);
 }
 
 .event-preview strong {
