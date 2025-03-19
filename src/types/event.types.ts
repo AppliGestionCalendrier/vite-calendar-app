@@ -1,9 +1,18 @@
 export type Event = {
   uid: string;
+  id?: string;
   summary: string;
   description?: string;
-  startDate: Date;
-  endDate: Date;
+  startDate?: string;
+  endDate?: string;
+  start?: {
+    dateTime: string;
+    timeZone?: string;
+  };
+  end?: {
+    dateTime: string;
+    timeZone?: string;
+  };
   location?: string;
   url?: string;
 };
