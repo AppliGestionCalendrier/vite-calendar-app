@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Form, ButtonGroup } from 'react-bootstrap';
+import 'react-datepicker/dist/react-datepicker.css';
 import '../css/CalendarDetail.css';
 import CreateEvent from './CreateEvent';
 import { Event } from '../types/event.types';
@@ -27,10 +28,15 @@ const CalendarDetail: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
 
+  // 📌 Ajout des filtres pour la plage de dates
+  // const [startDate, setStartDate] = useState<Date | null>(null);
+  // const [endDate, setEndDate] = useState<Date | null>(null);
   const [sortKey, setSortKey] = useState<'date' | 'alphabetical'>('date');
+
+  // 📌 Ajout de la barre de recherche
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list');
-  
+
   // Effet pour basculer automatiquement en vue liste lors d'une recherche
   useEffect(() => {
     if (searchQuery.trim() !== '') {
@@ -61,21 +67,21 @@ const CalendarDetail: React.FC = () => {
     }
 
     fetch(
-        `https://vite-calendar-app-seven.vercel.app/api/events?url=${encodeURIComponent(
-            calendar.url
-        )}`
+      `https://vite-calendar-app-seven.vercel.app/api/events?url=${encodeURIComponent(
+        calendar.url
+      )}`
     )
-        .then((response: Response) => response.json())
-        .then((data: { calendarName: string; events: Event[] }) => {
-          setCalendarName(data.calendarName);
-          setEvents(data.events);
-          setLoading(false);
-        })
-        .catch((err: unknown) => {
-          console.error('Erreur de requête :', err);
-          setError('Erreur lors de la récupération des événements');
-          setLoading(false);
-        });
+      .then((response: Response) => response.json())
+      .then((data: { calendarName: string; events: Event[] }) => {
+        setCalendarName(data.calendarName);
+        setEvents(data.events);
+        setLoading(false);
+      })
+      .catch((err: unknown) => {
+        console.error('Erreur de requête :', err);
+        setError('Erreur lors de la récupération des événements');
+        setLoading(false);
+      });
   }, [id]);
 
   // Fonction de tri des événements selon le critère sélectionné
@@ -83,7 +89,7 @@ const CalendarDetail: React.FC = () => {
     const sorted: Event[] = [...events];
     if (sortKey === 'date') {
       sorted.sort(
-          (a: Event, b: Event) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+        (a: Event, b: Event) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
       );
     } else if (sortKey === 'alphabetical') {
       sorted.sort((a: Event, b: Event) => a.summary.localeCompare(b.summary));
@@ -95,9 +101,9 @@ const CalendarDetail: React.FC = () => {
   const filteredEvents: Event[] = sortedEvents().filter((ev: Event) => {
     if (!searchQuery.trim()) return true;
     const tokens: string[] = searchQuery
-        .toLowerCase()
-        .split(' ')
-        .filter((token: string) => token !== '');
+      .toLowerCase()
+      .split(' ')
+      .filter((token: string) => token !== '');
     const text: string = ev.summary.toLowerCase();
     return tokens.every((token: string) => text.includes(token));
   });
@@ -122,124 +128,132 @@ const CalendarDetail: React.FC = () => {
   if (error) return <div className="calendar-page text-danger">{error}</div>;
 
   return (
-      <div className="calendar-page">
-        <div className="calendar-container">
-          <h2 className="calendar-title">{calendarName || 'Calendrier'}</h2>
-          <div className="mb-3 d-flex justify-content-between">
-            <CreateEvent onEventCreated={(event: Event) => setEvents([...events, event])} />
-            <div className="mt-4">
-              <Button
-                  className="button-secondary mb-3"
-                  onClick={() => {
-                    window.location.href = '/';
-                  }}
-              >
-                Retour aux calendriers
-              </Button>
-            </div>
+    <div className="calendar-page">
+      <div className="calendar-container">
+        <h2 className="calendar-title">{calendarName || 'Calendrier'}</h2>
+        <div className="mb-3 d-flex justify-content-between">
+          <CreateEvent onEventCreated={(event: Event) => setEvents([...events, event])} />
+          <div className="mt-4">
+            <Button
+              className="button-secondary mb-3"
+              onClick={() => {
+                window.location.href = '/';
+              }}
+            >
+              Retour aux calendriers
+            </Button>
           </div>
-          <div className="row mb-3">
-            <div className="col-md-6 mb-2">
-              <Form.Select
-                  className="select-custom"
-                  value={sortKey}
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>): void =>
-                      setSortKey(e.target.value as 'date' | 'alphabetical')
-                  }
-              >
-                <option value="date">Trier par date</option>
-                <option value="alphabetical">Trier par ordre alphabétique</option>
-              </Form.Select>
-            </div>
-            <div className="col-md-6 mb-2">
-              <Form.Group>
-                <Form.Control
-                    type="text"
-                    placeholder="Rechercher par mots-clés..."
-                    value={searchQuery}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-                        setSearchQuery(e.target.value)
-                    }
-                    className="search-bar"
-                />
-              </Form.Group>
-            </div>
+        </div>
+        <div className="row mb-3">
+          <div className="col-md-6 mb-2">
+            <Form.Select
+              className="select-custom"
+              value={sortKey}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>): void =>
+                setSortKey(e.target.value as 'date' | 'alphabetical')
+              }
+            >
+              <option value="date">Trier par date</option>
+              <option value="alphabetical">Trier par ordre alphabétique</option>
+            </Form.Select>
           </div>
-
-          {/* Toggle entre vue liste et vue calendrier */}
-          <div className="view-selector mb-3 d-flex justify-content-end">
-            <ButtonGroup>
-              <Button 
-                className={`view-button ${viewMode === 'list' ? 'active' : ''}`}
-                onClick={() => setViewMode('list')}
-              >
-                <i className="bi bi-list"></i> Liste
-              </Button>
-              <Button 
-                className={`view-button ${viewMode === 'calendar' ? 'active' : ''}`}
-                onClick={() => setViewMode('calendar')}
-                disabled={searchQuery.trim() !== ''}
-                title={searchQuery.trim() !== '' ? 'La vue calendrier est désactivée pendant la recherche' : 'Basculer en vue calendrier'}
-              >
-                <i className="bi bi-calendar3"></i> Calendrier
-                {searchQuery.trim() !== '' && <span className="ms-2"><i className="bi bi-lock-fill"></i></span>}
-              </Button>
-            </ButtonGroup>
-            {searchQuery.trim() !== '' && 
-              <div className="filter-info ms-2">
-                <i className="bi bi-info-circle"></i> Vue liste activée pour le filtrage
-              </div>
-            }
+          <div className="col-md-6 mb-2">
+            <Form.Group>
+              <Form.Control
+                type="text"
+                placeholder="Rechercher par mots-clés..."
+                value={searchQuery}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
+                  setSearchQuery(e.target.value)
+                }
+                className="search-bar"
+              />
+            </Form.Group>
           </div>
+        </div>
 
-          {/* Section récapitulative des événements distincts avec la durée totale, affichée lors d'une recherche */}
-          {searchQuery.trim() && (
-              <section className="event-summary mb-3">
-                <h3>Résumé des événements</h3>
-                <ul>
-                  {Object.entries(aggregatedEvents).map(([summary, totalHours]) => (
-                      <li key={summary}>
-                        {summary} – {totalHours.toFixed(2)} heure{totalHours > 1 ? 's' : ''}
-                      </li>
-                  ))}
-                </ul>
-              </section>
-          )}
-
-          {filteredEvents.length === 0 ? (
-              <p className="event-meta">Aucun événement trouvé.</p>
-          ) : viewMode === 'list' ? (
-              <ul className="event-list">
-                {filteredEvents.map((event: Event) => (
-                    <li
-                        key={event.uid}
-                        className="event-item d-flex justify-content-between align-items-center"
-                    >
-                      <div>
-                        <strong className="event-icon">📅 {event.summary}</strong>
-                        <br />
-                        <span className="event-meta">
-                    Début : {new Date(event.startDate).toLocaleDateString()} à{' '}
-                          {new Date(event.startDate).toLocaleTimeString([], {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          })}
-                          <br />
-                    Fin : {new Date(event.endDate).toLocaleDateString()} à{' '}
-                          {new Date(event.endDate).toLocaleTimeString([], {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          })}
-                  </span>
-                      </div>
-                    </li>
-                ))}
-              </ul>
-          ) : (
-              <EventCalendar events={filteredEvents} />
+        {/* Toggle entre vue liste et vue calendrier */}
+        <div className="view-selector mb-3 d-flex justify-content-end">
+          <ButtonGroup>
+            <Button
+              className={`view-button ${viewMode === 'list' ? 'active' : ''}`}
+              onClick={() => setViewMode('list')}
+            >
+              <i className="bi bi-list"></i> Liste
+            </Button>
+            <Button
+              className={`view-button ${viewMode === 'calendar' ? 'active' : ''}`}
+              onClick={() => setViewMode('calendar')}
+              disabled={searchQuery.trim() !== ''}
+              title={
+                searchQuery.trim() !== ''
+                  ? 'La vue calendrier est désactivée pendant la recherche'
+                  : 'Basculer en vue calendrier'
+              }
+            >
+              <i className="bi bi-calendar3"></i> Calendrier
+              {searchQuery.trim() !== '' && (
+                <span className="ms-2">
+                  <i className="bi bi-lock-fill"></i>
+                </span>
+              )}
+            </Button>
+          </ButtonGroup>
+          {searchQuery.trim() !== '' && (
+            <div className="filter-info ms-2">
+              <i className="bi bi-info-circle"></i> Vue liste activée pour le filtrage
+            </div>
           )}
         </div>
+
+        {/* Section récapitulative des événements distincts avec la durée totale, affichée lors d'une recherche */}
+        {searchQuery.trim() && (
+          <section className="event-summary mb-3">
+            <h3>Résumé des événements</h3>
+            <ul>
+              {Object.entries(aggregatedEvents).map(([summary, totalHours]) => (
+                <li key={summary}>
+                  {summary} – {totalHours.toFixed(2)} heure{totalHours > 1 ? 's' : ''}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {filteredEvents.length === 0 ? (
+          <p className="event-meta">Aucun événement trouvé.</p>
+        ) : viewMode === 'list' ? (
+          <ul className="event-list">
+            {filteredEvents.map((event: Event) => (
+              <li
+                key={event.uid}
+                className="event-item d-flex justify-content-between align-items-center"
+              >
+                <div>
+                  <strong className="event-icon">📅 {event.summary}</strong>
+                  <br />
+                  <span className="event-meta">
+                    Début : {new Date(event.startDate).toLocaleDateString()} à{' '}
+                    {new Date(event.startDate).toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
+                    <br />
+                    Fin : {new Date(event.endDate).toLocaleDateString()} à{' '}
+                    {new Date(event.endDate).toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <EventCalendar events={filteredEvents} />
+        )}
       </div>
+    </div>
   );
 };
 
