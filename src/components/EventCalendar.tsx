@@ -16,8 +16,8 @@ const EventCalendar: React.FC<EventCalendarProps> = ({ events }) => {
     return events.filter(event => event !== null).map(event => ({
       id: event.uid,
       text: event.summary,
-      startDate: new Date(event.startDate),
-      endDate: new Date(event.endDate),
+      startDate: new Date(event.startDate || event.start?.dateTime || ''),
+      endDate: new Date(event.startDate || event.start?.dateTime || ''),
       allDay: false,
     }));
   };
