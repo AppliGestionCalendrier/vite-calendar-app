@@ -105,7 +105,11 @@ const CalendarDetail: React.FC = () => {
   });
 
   const handleEditEvent = (event: Event): void => {
-    setCurrentEvent(event);
+    setCurrentEvent({
+      ...event,
+      startDate: new Date(event.startDate),
+      endDate: new Date(event.endDate),
+    });
     setShowModal(true);
   };
 
@@ -231,7 +235,6 @@ const CalendarDetail: React.FC = () => {
                       });
                     }}
                   />
-                  œ
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Heure de début</Form.Label>
