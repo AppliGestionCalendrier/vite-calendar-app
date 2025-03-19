@@ -1,39 +1,170 @@
-/* CreateEvent.css */
+/* CreateEvent.css - Modern Neutral 2024 Style */
+@import './root.css';
+
+/* Conteneur du formulaire de création d'événement */
 .create-event-container {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin-top: 15px;
+  gap: 1rem;
+  margin-top: 1.25rem;
   width: 100%;
   max-width: 600px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: transparent;
 }
 
-/* Input text stylé */
+/* Input de saisie d'événement */
 .event-input {
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 6px;
-  border: none;
-  background-color: #333;
-  color: #ffd700;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--border-color);
+  background-color: var(--background-input);
+  color: var(--text-primary);
   outline: none;
+  transition: var(--transition-normal);
+}
+
+.event-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 1px rgba(79, 110, 242, 0.15);
 }
 
 .event-input::placeholder {
-  color: #ffd700 !important;
+  color: var(--text-light) !important;
+  opacity: 0.7;
 }
 
 /* Carte d'aperçu de l'événement */
 .event-preview {
-  background: #222;
-  color: white;
-  padding: 15px;
-  border-radius: 10px;
-  border-left: 5px solid #ffd700;
-  box-shadow: 0 3px 6px rgba(255, 255, 255, 0.1);
-  transition: transform 0.2s ease-in-out;
+  background-color: var(--background-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow-subtle);
+  transition: var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.event-preview::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background-color: var(--primary-color);
+  opacity: 0.7; /* Moins intense */
+  transition: var(--transition-normal);
 }
 
 .event-preview:hover {
-  transform: scale(1.02);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.07);
+  border-color: var(--neutral-light);
+}
+
+/* Styles des titres et du contenu de la carte */
+.event-preview .card-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-primary);
+}
+
+.event-preview h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.event-preview p {
+  font-size: 0.9375rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.event-preview p:last-child {
+  margin-bottom: 0;
+}
+
+.event-preview strong {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.event-preview .text-danger {
+  color: var(--danger-color) !important;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background-color: rgba(229, 62, 62, 0.08);
+  border-radius: var(--border-radius-sm);
+  font-weight: 500;
+}
+
+/* Style pour l'affichage de la durée */
+.event-preview .event-duration {
+  color: var(--primary-color);
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+/* Style du bouton principal */
+.button-primary {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 500; /* Moins gras pour un style plus neutre */
+  cursor: pointer;
+  transition: var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.button-primary:hover {
+  background-color: var(--primary-hover);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button-primary:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.button-primary:disabled {
+  background-color: var(--neutral-mid);
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+}
+
+/* Styles réactifs pour les mobiles */
+@media (max-width: 768px) {
+  .create-event-container {
+    padding: 0 1rem;
+  }
+
+  .event-preview .card-body {
+    padding: 1rem;
+  }
+
+  .event-preview h4 {
+    font-size: 1.125rem;
+  }
 }

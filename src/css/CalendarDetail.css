@@ -1,4 +1,5 @@
 /* CalendarDetail.css */
+@import './root.css';
 
 /* Page full screen avec un fond élégant */
 .calendar-page {
@@ -6,9 +7,9 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #2e2e2e, #1c1c1c); /* Dégradé doux */
-  color: #ededed; /* Texte blanc cassé */
-  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, var(--background-dark), #1c1c1c); /* Dégradé doux */
+  color: var(--text-primary); /* Texte blanc cassé */
+  /* La font-family est déjà définie dans root.css */
 }
 
 /* Conteneur principal */
@@ -50,7 +51,6 @@
 }
 
 .event-item:hover {
-  transform: scale(1.03);
   background-color: #444;
 }
 
