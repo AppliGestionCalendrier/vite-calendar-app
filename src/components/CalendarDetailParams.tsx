@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Modal, Form } from 'react-bootstrap';
 import '../css/CalendarDetail.css';
-import CreateEvent from "./CreateEvent.tsx";
+import CreateEvent from "./CreateEvent.tsx";import { useLocation } from 'react-router-dom';
 
 interface CalendarDetailParams {
     id: string;
@@ -43,9 +43,58 @@ const CalendarDetail: React.FC = () => {
         return match ? match[1].trim() : '';
     };
 
-    useEffect(() => {
-        console.log("ID récupéré :", id);
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const calendarType = queryParams.get("type");
 
+    const initializeGoogleAPI = () => {
+        return new Promise<void>((resolve, reject) => {
+            if (window.gapi && window.gapi.client) {
+                resolve(); // Déjà chargé
+            } else {
+                window.gapi.load("client:auth2", () => {
+                    window.gapi.client
+                        .init({
+                            apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
+                            clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+                            discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
+                            scope: "https://www.googleapis.com/auth/calendar.readonly",
+                        })
+                        .then(() => {
+                            resolve();
+                        })
+                        .catch((error) => {
+                            console.error("❌ Erreur lors du chargement de l'API Google", error);
+                            reject(error);
+                        });
+                });
+            }
+        });
+    };
+
+
+    useEffect(() => {
+
+        if (!id || !calendarType) {
+            setError("Détails du calendrier manquants");
+            setLoading(false);
+            return;
+        }
+
+        initializeGoogleAPI()
+            .then(() => {
+                if (calendarType === "ical") {
+                    fetchICalEvents(id);
+                } else if (calendarType === "google") {
+                    fetchGoogleEvents(id);
+                } else {
+                    setError("Type de calendrier inconnu");
+                    setLoading(false);
+                }
+            })
+    }, [id, calendarType]);
+
+    const fetchICalEvents = (calendarId: string) => {
         const storedCalendars = localStorage.getItem('calendars');
         if (!storedCalendars) {
             setError("Aucun calendrier trouvé");
@@ -54,31 +103,74 @@ const CalendarDetail: React.FC = () => {
         }
 
         const calendars = JSON.parse(storedCalendars);
-        const calendar = calendars.find((cal: any) => cal.id === id);
+        const calendar = calendars.find((cal: any) => cal.id === calendarId);
         if (!calendar || !calendar.url) {
             setError("Calendrier introuvable ou URL manquante");
             setLoading(false);
             return;
         }
 
-        // Récupération des événements depuis le backend et ajout du groupe extrait si absent
         fetch(`http://localhost:3000/api/events?url=${encodeURIComponent(calendar.url)}`)
             .then(response => response.json())
             .then(data => {
                 setCalendarName(data.calendarName);
                 const eventsWithGroup = data.events.map((ev: Event) => ({
                     ...ev,
-                    group: ev.group || extractModule(ev.summary)
+                    group: ev.group || extractModule(ev.summary) // 🔹 Ajout ici
                 }));
                 setEvents(eventsWithGroup);
                 setLoading(false);
             })
             .catch(err => {
-                console.error("Erreur de requête :", err);
-                setError("Erreur lors de la récupération des événements");
+                console.error("❌ Erreur iCal :", err);
+                setError("Erreur lors de la récupération des événements iCal.");
                 setLoading(false);
             });
-    }, [id]);
+    };
+
+    const fetchGoogleEvents = async (calendarId: string) => {
+
+        try {
+            if (!window.gapi || !window.gapi.client) {
+                setError("Google API non chargée, reconnectez-vous.");
+                setLoading(false);
+                return;
+            }
+
+            console.log("📌 Récupération des événements du calendrier :", calendarId);
+            const calendarListResponse = await window.gapi.client.calendar.calendarList.list();
+            console.log("📜 Liste des calendriers récupérés :", calendarListResponse.result.items);
+
+
+            const response = await window.gapi.client.calendar.events.list({
+                calendarId: calendarId,
+                timeMin: new Date().toISOString(),
+                maxResults: 20,
+                singleEvents: true,
+                orderBy: "startTime",
+            });
+
+            console.log("je suis la 3");
+
+            const googleEvents = response.result.items || [];
+
+            const formattedEvents = googleEvents.map((ev: any) => ({
+                uid: ev.id,
+                summary: ev.summary || "Événement sans titre",
+                startDate: ev.start?.dateTime || ev.start?.date,
+                endDate: ev.end?.dateTime || ev.end?.date,
+                group: ev.group || extractModule(ev.summary) // 🔹 Ajout ici
+            }));
+
+            setCalendarName(`Google Calendar: ${calendarId}`);
+            setEvents(formattedEvents);
+            setLoading(false);
+        } catch (error) {
+            console.error("❌ Erreur API Google Calendar:", error);
+            setError("Erreur lors de la récupération des événements Google.");
+            setLoading(false);
+        }
+    };
 
     // Tri des événements
     const sortedEvents = () => {
