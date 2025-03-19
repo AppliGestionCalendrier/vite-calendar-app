@@ -1,9 +1,13 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, ButtonGroup } from 'react-bootstrap';
 import '../css/CalendarDetail.css';
 import CreateEvent from './CreateEvent';
 import { Event } from '../types/event.types';
+import EventCalendar from './EventCalendar';
+
+// Import des styles pour DevExtreme
+import 'devextreme/dist/css/dx.light.css';
 
 interface CalendarDetailRouteParams extends Record<string, string | undefined> {
   id: string;
@@ -25,6 +29,14 @@ const CalendarDetail: React.FC = () => {
 
   const [sortKey, setSortKey] = useState<'date' | 'alphabetical'>('date');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list');
+  
+  // Effet pour basculer automatiquement en vue liste lors d'une recherche
+  useEffect(() => {
+    if (searchQuery.trim() !== '') {
+      setViewMode('list');
+    }
+  }, [searchQuery]);
 
   useEffect(() => {
     const storedCalendars: string | null = localStorage.getItem('calendars');
@@ -154,6 +166,32 @@ const CalendarDetail: React.FC = () => {
             </div>
           </div>
 
+          {/* Toggle entre vue liste et vue calendrier */}
+          <div className="view-selector mb-3 d-flex justify-content-end">
+            <ButtonGroup>
+              <Button 
+                className={`view-button ${viewMode === 'list' ? 'active' : ''}`}
+                onClick={() => setViewMode('list')}
+              >
+                <i className="bi bi-list"></i> Liste
+              </Button>
+              <Button 
+                className={`view-button ${viewMode === 'calendar' ? 'active' : ''}`}
+                onClick={() => setViewMode('calendar')}
+                disabled={searchQuery.trim() !== ''}
+                title={searchQuery.trim() !== '' ? 'La vue calendrier est désactivée pendant la recherche' : 'Basculer en vue calendrier'}
+              >
+                <i className="bi bi-calendar3"></i> Calendrier
+                {searchQuery.trim() !== '' && <span className="ms-2"><i className="bi bi-lock-fill"></i></span>}
+              </Button>
+            </ButtonGroup>
+            {searchQuery.trim() !== '' && 
+              <div className="filter-info ms-2">
+                <i className="bi bi-info-circle"></i> Vue liste activée pour le filtrage
+              </div>
+            }
+          </div>
+
           {/* Section récapitulative des événements distincts avec la durée totale, affichée lors d'une recherche */}
           {searchQuery.trim() && (
               <section className="event-summary mb-3">
@@ -170,7 +208,7 @@ const CalendarDetail: React.FC = () => {
 
           {filteredEvents.length === 0 ? (
               <p className="event-meta">Aucun événement trouvé.</p>
-          ) : (
+          ) : viewMode === 'list' ? (
               <ul className="event-list">
                 {filteredEvents.map((event: Event) => (
                     <li
@@ -197,6 +235,8 @@ const CalendarDetail: React.FC = () => {
                     </li>
                 ))}
               </ul>
+          ) : (
+              <EventCalendar events={filteredEvents} />
           )}
         </div>
       </div>
