@@ -1,154 +1,351 @@
-@import 'bootstrap-icons/font/bootstrap-icons.css';
+@import './root.css';
 
-/* CalendarList.css */
+/* CalendarList.css - Modern 2024 Style - Natural & Accessible */
 
-/* Page en grand écran avec un fond épuré */
+/* Fond moderne mais plus subtil */
 .calendar-page {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #2e2e2e, #1c1c1c); /* Dégradé élégant */
-  color: #ededed; /* Blanc cassé */
-  font-family: 'Inter', sans-serif;
+  background: linear-gradient(to bottom right, #1a202c, #0f172a); /* Fond plus simple et naturel */
+  color: var(--text-primary);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  padding: 1.5rem;
 }
 
-/* Conteneur principal */
+/* Conteneur principal avec effet subtil */
 .calendar-container {
-  width: 90%;
+  width: 100%;
   max-width: 1000px;
-  background: #262626;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  background: var(--background-card);
+  backdrop-filter: blur(8px); /* Effet de flou réduit */
+  -webkit-backdrop-filter: blur(8px);
+  padding: 2.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Ombre plus naturelle */
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-/* Titre principal */
+/* Titre élégant sans effet néon */
 .calendar-title {
-  font-size: 28px;
-  font-weight: bold;
+  font-size: 2rem;
+  font-weight: 700;
   text-align: center;
-  padding-bottom: 15px;
-  border-bottom: 2px solid #ffd700; /* Doré */
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+  padding-bottom: 1rem;
+  position: relative;
 }
 
-/* Section Formulaires */
+.calendar-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48px;
+  height: 2px;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+}
+
+/* Modern form section */
 .add-calendar-form {
   display: flex;
   flex-direction: row;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  position: relative;
 }
 
+/* Input avec style moderne mais sans effet néon */
 .add-calendar-input {
   flex: 1;
-  padding: 12px;
-  font-size: 16px;
-  border-radius: 6px;
-  border: none;
-  background-color: #333;
-  color: #ffd700; /* Doré */
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--background-input);
+  color: var(--text-primary);
   outline: none;
+  transition: var(--transition-normal);
 }
 
+.add-calendar-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2); /* Ombre réduite */
+}
+
+.add-calendar-input::placeholder {
+  color: rgba(203, 213, 225, 0.5);
+}
+
+/* Boutons modernes avec animations naturelles */
 .add-calendar-button {
-  padding: 12px 20px;
-  font-size: 16px;
+  padding: 0.875rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--border-radius-sm);
   cursor: pointer;
-  transition: background 0.3s ease-in-out;
+  transition: var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Style pour assurer que le nom du calendrier soit tronqué avec une ellipsis si trop long */
+.calendar-name {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+  padding-right: 8px;
 }
 
 .button-primary {
-  background-color: #ffd700; /* Doré */
-  color: #121212;
-  font-weight: bold;
+  background-color: var(--primary-color);
+  color: white;
 }
 
 .button-primary:hover {
-  background-color: #ffc107;
+  background-color: var(--primary-hover);
+  transform: translateY(-1px); /* Animation plus subtile */
+}
+
+.button-primary:active {
+  transform: translateY(1px); /* Effet d'enfoncement naturel */
 }
 
 .button-success {
-  background-color: #4caf50;
+  background-color: var(--success-color);
   color: white;
-  font-weight: bold;
 }
 
 .button-success:hover {
-  background-color: #388e3c;
+  background-color: var(--success-hover);
+  transform: translateY(-1px);
 }
 
-/* Liste des calendriers */
+.button-success:active {
+  transform: translateY(1px);
+}
+
+/* Liste de calendriers avec style moderne mais sobre */
 .calendar-list {
-  margin-top: 30px;
+  margin-top: 2.5rem;
 }
 
+.calendar-list h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.calendar-list h2::before {
+  content: '';
+  display: block;
+  width: 3px;
+  height: 20px;
+  background-color: var(--primary-color);
+  border-radius: 3px;
+}
+
+/* Éléments de liste avec animation naturelle au hover */
 .calendar-list-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #333;
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 8px;
-  border-left: 5px solid #ffd700; /* Accent visuel */
-  box-shadow: 0px 2px 5px rgba(255, 255, 255, 0.1);
-  transition: transform 0.2s ease-in-out;
-  cursor: pointer;
-  color: #ededed;
-  text-decoration: none;
+  background-color: rgba(30, 41, 59, 0.5);
+  padding: 1.25rem 1.5rem;
+  margin: 1rem 0;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--box-shadow-subtle);
+  transition: var(--transition-normal);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.calendar-list-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background-color: var(--primary-color);
+  border-radius: 3px 0 0 3px;
+  transition: var(--transition-normal);
 }
 
 .calendar-list-item:hover {
-  transform: scale(1.03);
-  background-color: #444;
+  transform: translateY(-2px); /* Animation plus subtile */
+  background-color: rgba(30, 41, 59, 0.7);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
-/* Override des boutons Bootstrap */
+.calendar-list-item:hover::before {
+  width: 5px; /* Élargissement léger de la bordure au hover */
+}
+
+.calendar-name {
+  font-weight: 500;
+  font-size: 1.0625rem;
+  color: var(--text-primary) !important;
+  transition: var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.calendar-name:hover {
+  color: #6366f1 !important;
+}
+
+/* Bouton de suppression avec animation naturelle */
+.btn-danger {
+  background-color: transparent !important;
+  border: none !important;
+  color: var(--text-secondary) !important;
+  border-radius: 50% !important;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-normal);
+  padding: 0 !important;
+}
+
+.btn-danger:hover {
+  background-color: rgba(220, 38, 38, 0.08) !important;
+  color: var(--danger-color) !important;
+}
+
+.btn-danger:focus-visible {
+  outline: 2px solid var(--danger-color);
+  outline-offset: 2px;
+}
+
+.btn-danger i {
+  font-size: 1.125rem;
+}
+
+/* Bootstrap overrides */
 .btn-primary {
-  background-color: #ffd700 !important; /* Doré */
-  border-color: #ffd700 !important;
-  color: #121212 !important;
-  font-weight: bold;
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: white !important;
 }
 
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active {
-  background-color: #ffc107 !important;
-  border-color: #ffc107 !important;
-  color: #121212 !important;
+  background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
 }
 
 .btn-success {
-  background-color: #4caf50 !important;
-  border-color: #4caf50 !important;
-  color: white !important;
-  font-weight: bold;
+  background-color: var(--success-color) !important;
+  border-color: var(--success-color) !important;
 }
 
 .btn-success:hover,
 .btn-success:focus,
 .btn-success:active {
-  background-color: #388e3c !important;
-  border-color: #388e3c !important;
-  color: white !important;
+  background-color: var(--success-hover) !important;
+  border-color: var(--success-hover) !important;
 }
 
-/* Override des selects Bootstrap */
+/* Modern form select overrides */
 .form-select,
 .select-custom {
-  background-color: #333 !important;
-  color: #ffd700 !important;
-  border: none !important;
-  border-radius: 6px;
-  padding: 12px !important;
-  font-size: 16px !important;
+  background-color: var(--background-input) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: var(--border-radius-sm);
+  padding: 0.875rem 1rem !important;
+  font-size: 1rem !important;
   cursor: pointer;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: var(--transition-normal);
 }
 
-.trash {
-  margin-left: 5px;
+.form-select:focus,
+.select-custom:focus {
+  border-color: rgba(99, 102, 241, 0.4) !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25) !important;
+}
+
+/* État de chargement avec animation sobre */
+.calendar-page .loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.125rem;
+  color: var(--text-primary);
+}
+
+.calendar-page .loading::after {
+  content: '';
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid rgba(203, 213, 225, 0.2);
+  border-radius: 50%;
+  border-top-color: var(--primary-color);
+  animation: spinner 1s ease-in-out infinite;
+}
+
+@keyframes spinner {
+  to { transform: rotate(360deg); }
+}
+
+/* État vide avec style épuré */
+.calendar-list p {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary);
+  background: rgba(30, 41, 59, 0.4);
+  border-radius: var(--border-radius-sm);
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .calendar-container {
+    padding: 1.5rem;
+  }
+  
+  .add-calendar-form {
+    flex-direction: column;
+  }
+  
+  .calendar-title {
+    font-size: 1.75rem;
+  }
+  
+  .calendar-list-item {
+    padding: 1rem;
+  }
+}
+
+/* Styles focus améliorés pour l'accessibilité */
+:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+  box-shadow: none;
 }
