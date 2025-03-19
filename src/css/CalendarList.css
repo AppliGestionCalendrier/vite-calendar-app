@@ -1,70 +1,59 @@
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
-/* CalendarList.css - Modern 2024 Style */
+/* CalendarList.css - Modern 2024 Style - Natural & Accessible */
 
 :root {
-  --primary-color: #6366f1; /* Indigo */
-  --primary-hover: #4f46e5;
-  --success-color: #10b981; /* Emerald */
-  --success-hover: #059669;
-  --danger-color: #ef4444; /* Red */
-  --danger-hover: #dc2626;
+  --primary-color: #4f46e5; /* Indigo - légèrement plus foncé pour meilleur contraste */
+  --primary-hover: #4338ca;
+  --success-color: #059669; /* Emerald - légèrement plus foncé pour meilleur contraste */
+  --success-hover: #047857;
+  --danger-color: #dc2626; /* Red - légèrement plus foncé pour meilleur contraste */
+  --danger-hover: #b91c1c;
   --background-dark: #0f172a; /* Slate 900 */
-  --background-card: rgba(30, 41, 59, 0.7); /* Slate 800 with transparency */
-  --background-input: rgba(15, 23, 42, 0.6); /* Slate 900 with transparency */
+  --background-card: rgba(30, 41, 59, 0.9); /* Moins transparent pour meilleur lisibilité */
+  --background-input: rgba(30, 41, 59, 0.8); /* Moins transparent pour meilleur lisibilité */
   --text-primary: #f8fafc; /* Slate 50 */
   --text-secondary: #cbd5e1; /* Slate 300 */
-  --border-radius: 16px;
-  --border-radius-sm: 12px;
-  --box-shadow: 0 10px 30px -5px rgba(2, 6, 23, 0.3);
-  --transition-fast: 0.2s all ease;
-  --transition-normal: 0.3s all ease;
+  --border-radius: 12px; /* Légèrement réduit pour un design plus sobre */
+  --border-radius-sm: 8px;
+  --box-shadow-subtle: 0 4px 6px -1px rgba(0, 0, 0, 0.1); /* Ombre plus subtile */
+  --transition-fast: 0.2s all cubic-bezier(0.4, 0, 0.2, 1); /* Transition plus naturelle */
+  --transition-normal: 0.3s all cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Modern background with subtle animated gradient */
+/* Fond moderne mais plus subtil */
 .calendar-page {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
-  background-size: 400% 400%;
-  animation: gradient-shift 15s ease infinite;
+  background: linear-gradient(to bottom right, #1a202c, #0f172a); /* Fond plus simple et naturel */
   color: var(--text-primary);
   font-family: 'Plus Jakarta Sans', sans-serif;
   padding: 1.5rem;
 }
 
-@keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* Glass effect container with modern border */
+/* Conteneur principal avec effet subtil */
 .calendar-container {
   width: 100%;
   max-width: 1000px;
   background: var(--background-card);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(8px); /* Effet de flou réduit */
+  -webkit-backdrop-filter: blur(8px);
   padding: 2.5rem;
   border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Ombre plus naturelle */
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-/* Modern title with gradient */
+/* Titre élégant sans effet néon */
 .calendar-title {
   font-size: 2rem;
   font-weight: 700;
   text-align: center;
   margin-bottom: 1.5rem;
-  background: linear-gradient(90deg, #6366f1, #8b5cf6);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--text-primary);
   padding-bottom: 1rem;
   position: relative;
 }
@@ -75,10 +64,10 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, #6366f1, #8b5cf6);
-  border-radius: 3px;
+  width: 48px;
+  height: 2px;
+  background-color: var(--primary-color);
+  border-radius: 2px;
 }
 
 /* Modern form section */
@@ -90,7 +79,7 @@
   position: relative;
 }
 
-/* Glass effect input */
+/* Input avec style moderne mais sans effet néon */
 .add-calendar-input {
   flex: 1;
   padding: 0.875rem 1rem;
@@ -101,19 +90,18 @@
   color: var(--text-primary);
   outline: none;
   transition: var(--transition-normal);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .add-calendar-input:focus {
-  border-color: rgba(99, 102, 241, 0.4);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2); /* Ombre réduite */
 }
 
 .add-calendar-input::placeholder {
-  color: rgba(203, 213, 225, 0.6);
+  color: rgba(203, 213, 225, 0.5);
 }
 
-/* Modern button styles */
+/* Boutons modernes avec animations naturelles */
 .add-calendar-button {
   padding: 0.875rem 1.25rem;
   font-size: 0.9375rem;
@@ -121,40 +109,46 @@
   border: none;
   border-radius: var(--border-radius-sm);
   cursor: pointer;
-  transition: var(--transition-fast);
+  transition: var(--transition-normal);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   line-height: 1;
   letter-spacing: 0.01em;
+  position: relative;
+  overflow: hidden;
 }
 
 .button-primary {
   background-color: var(--primary-color);
   color: white;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
 .button-primary:hover {
   background-color: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(99, 102, 241, 0.4);
+  transform: translateY(-1px); /* Animation plus subtile */
+}
+
+.button-primary:active {
+  transform: translateY(1px); /* Effet d'enfoncement naturel */
 }
 
 .button-success {
   background-color: var(--success-color);
   color: white;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
 .button-success:hover {
   background-color: var(--success-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(16, 185, 129, 0.4);
+  transform: translateY(-1px);
 }
 
-/* Calendar list with card-like items */
+.button-success:active {
+  transform: translateY(1px);
+}
+
+/* Liste de calendriers avec style moderne mais sobre */
 .calendar-list {
   margin-top: 2.5rem;
 }
@@ -172,13 +166,13 @@
 .calendar-list h2::before {
   content: '';
   display: block;
-  width: 4px;
-  height: 24px;
-  background: linear-gradient(180deg, #6366f1, #8b5cf6);
-  border-radius: 4px;
+  width: 3px;
+  height: 20px;
+  background-color: var(--primary-color);
+  border-radius: 3px;
 }
 
-/* Modern card-like items with hover effects */
+/* Éléments de liste avec animation naturelle au hover */
 .calendar-list-item {
   display: flex;
   align-items: center;
@@ -187,7 +181,7 @@
   padding: 1.25rem 1.5rem;
   margin: 1rem 0;
   border-radius: var(--border-radius-sm);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow-subtle);
   transition: var(--transition-normal);
   border: 1px solid rgba(255, 255, 255, 0.08);
   position: relative;
@@ -200,15 +194,20 @@
   left: 0;
   top: 0;
   height: 100%;
-  width: 4px;
-  background: linear-gradient(180deg, #6366f1, #8b5cf6);
-  border-radius: 4px 0 0 4px;
+  width: 3px;
+  background-color: var(--primary-color);
+  border-radius: 3px 0 0 3px;
+  transition: var(--transition-normal);
 }
 
 .calendar-list-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px); /* Animation plus subtile */
   background-color: rgba(30, 41, 59, 0.7);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.calendar-list-item:hover::before {
+  width: 5px; /* Élargissement léger de la bordure au hover */
 }
 
 .calendar-name {
@@ -225,7 +224,7 @@
   color: #6366f1 !important;
 }
 
-/* Modern button overrides for Bootstrap */
+/* Bouton de suppression avec animation naturelle */
 .btn-danger {
   background-color: transparent !important;
   border: none !important;
@@ -236,14 +235,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: var(--transition-fast);
+  transition: var(--transition-normal);
   padding: 0 !important;
 }
 
 .btn-danger:hover {
-  background-color: rgba(239, 68, 68, 0.1) !important;
+  background-color: rgba(220, 38, 38, 0.08) !important;
   color: var(--danger-color) !important;
-  transform: rotate(12deg);
+}
+
+.btn-danger:focus-visible {
+  outline: 2px solid var(--danger-color);
+  outline-offset: 2px;
 }
 
 .btn-danger i {
@@ -296,37 +299,38 @@
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25) !important;
 }
 
-/* Loading state with subtle animation */
+/* État de chargement avec animation sobre */
 .calendar-page .loading {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.75rem;
   font-size: 1.125rem;
+  color: var(--text-primary);
 }
 
 .calendar-page .loading::after {
   content: '';
   width: 1.25rem;
   height: 1.25rem;
-  border: 2px solid rgba(203, 213, 225, 0.3);
+  border: 2px solid rgba(203, 213, 225, 0.2);
   border-radius: 50%;
-  border-top-color: #6366f1;
-  animation: spinner 0.8s linear infinite;
+  border-top-color: var(--primary-color);
+  animation: spinner 1s ease-in-out infinite;
 }
 
 @keyframes spinner {
   to { transform: rotate(360deg); }
 }
 
-/* Empty state styles */
+/* État vide avec style épuré */
 .calendar-list p {
   text-align: center;
   padding: 2rem;
   color: var(--text-secondary);
-  background: rgba(15, 23, 42, 0.3);
+  background: rgba(30, 41, 59, 0.4);
   border-radius: var(--border-radius-sm);
-  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border: 1px dashed rgba(255, 255, 255, 0.08);
 }
 
 /* Responsive adjustments */
@@ -348,8 +352,9 @@
   }
 }
 
-/* Focus visible styles for better accessibility */
+/* Styles focus améliorés pour l'accessibilité */
 :focus-visible {
-  outline: 2px solid #6366f1;
+  outline: 2px solid var(--primary-color);
   outline-offset: 2px;
+  box-shadow: none;
 }
