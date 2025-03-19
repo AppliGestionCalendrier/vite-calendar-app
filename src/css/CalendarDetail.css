@@ -97,3 +97,46 @@
 .search-bar::placeholder {
   color: #ffd700 !important;
 }
+
+/* Styles pour les boutons de sélection de vue */
+.view-button {
+  border: 1px solid #444;
+  background-color: #333;
+  color: #eee;
+  margin-left: 5px;
+  transition: all 0.2s ease;
+}
+
+.view-button.active {
+  background-color: #ffd700;
+  color: #222;
+  border-color: #ffd700;
+}
+
+.view-button:hover:not(.active):not(:disabled) {
+  background-color: #444;
+  border-color: #ffd700;
+}
+
+.view-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Message d'information sur le filtrage */
+.filter-info {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  color: #bbb;
+  background-color: rgba(255, 215, 0, 0.15);
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  margin-left: 10px;
+}
+
+.filter-info i {
+  margin-right: 0.5rem;
+  color: #ffd700;
+}

@@ -30,6 +30,13 @@ const CalendarDetail: React.FC = () => {
   const [sortKey, setSortKey] = useState<'date' | 'alphabetical'>('date');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [viewMode, setViewMode] = useState<'list' | 'calendar'>('list');
+  
+  // Effet pour basculer automatiquement en vue liste lors d'une recherche
+  useEffect(() => {
+    if (searchQuery.trim() !== '') {
+      setViewMode('list');
+    }
+  }, [searchQuery]);
 
   useEffect(() => {
     const storedCalendars: string | null = localStorage.getItem('calendars');
@@ -171,10 +178,18 @@ const CalendarDetail: React.FC = () => {
               <Button 
                 className={`view-button ${viewMode === 'calendar' ? 'active' : ''}`}
                 onClick={() => setViewMode('calendar')}
+                disabled={searchQuery.trim() !== ''}
+                title={searchQuery.trim() !== '' ? 'La vue calendrier est désactivée pendant la recherche' : 'Basculer en vue calendrier'}
               >
                 <i className="bi bi-calendar3"></i> Calendrier
+                {searchQuery.trim() !== '' && <span className="ms-2"><i className="bi bi-lock-fill"></i></span>}
               </Button>
             </ButtonGroup>
+            {searchQuery.trim() !== '' && 
+              <div className="filter-info ms-2">
+                <i className="bi bi-info-circle"></i> Vue liste activée pour le filtrage
+              </div>
+            }
           </div>
 
           {/* Section récapitulative des événements distincts avec la durée totale, affichée lors d'une recherche */}
