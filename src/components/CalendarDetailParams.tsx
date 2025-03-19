@@ -29,15 +29,15 @@ const CalendarDetail: React.FC = () => {
   const [currentEvent, setCurrentEvent] = useState<Event | null>(null);
 
   useEffect(() => {
-    if (!id) {
-      setError('ID manquant');
+    const storedCalendars: string | null = localStorage.getItem('calendars');
+    if (!storedCalendars) {
+      setError('Aucun calendrier trouvé');
       setLoading(false);
       return;
     }
 
-    const storedCalendars: string | null = localStorage.getItem('calendars');
-    if (!storedCalendars) {
-      setError('Aucun calendrier trouvé');
+    if (!id) {
+      setError('ID manquant');
       setLoading(false);
       return;
     }
@@ -136,7 +136,7 @@ const CalendarDetail: React.FC = () => {
             <Button
               className="button-secondary mb-3"
               onClick={() => {
-                window.location.href = 'http://localhost:3500';
+                window.location.href = '/';
               }}
             >
               Retour aux calendriers
