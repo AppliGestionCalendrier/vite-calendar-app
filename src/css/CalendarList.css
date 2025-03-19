@@ -1,26 +1,6 @@
-@import 'bootstrap-icons/font/bootstrap-icons.css';
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import './root.css';
 
 /* CalendarList.css - Modern 2024 Style - Natural & Accessible */
-
-:root {
-  --primary-color: #4f46e5; /* Indigo - légèrement plus foncé pour meilleur contraste */
-  --primary-hover: #4338ca;
-  --success-color: #059669; /* Emerald - légèrement plus foncé pour meilleur contraste */
-  --success-hover: #047857;
-  --danger-color: #dc2626; /* Red - légèrement plus foncé pour meilleur contraste */
-  --danger-hover: #b91c1c;
-  --background-dark: #0f172a; /* Slate 900 */
-  --background-card: rgba(30, 41, 59, 0.9); /* Moins transparent pour meilleur lisibilité */
-  --background-input: rgba(30, 41, 59, 0.8); /* Moins transparent pour meilleur lisibilité */
-  --text-primary: #f8fafc; /* Slate 50 */
-  --text-secondary: #cbd5e1; /* Slate 300 */
-  --border-radius: 12px; /* Légèrement réduit pour un design plus sobre */
-  --border-radius-sm: 8px;
-  --box-shadow-subtle: 0 4px 6px -1px rgba(0, 0, 0, 0.1); /* Ombre plus subtile */
-  --transition-fast: 0.2s all cubic-bezier(0.4, 0, 0.2, 1); /* Transition plus naturelle */
-  --transition-normal: 0.3s all cubic-bezier(0.4, 0, 0.2, 1);
-}
 
 /* Fond moderne mais plus subtil */
 .calendar-page {
@@ -118,6 +98,17 @@
   letter-spacing: 0.01em;
   position: relative;
   overflow: hidden;
+}
+
+/* Style pour assurer que le nom du calendrier soit tronqué avec une ellipsis si trop long */
+.calendar-name {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+  padding-right: 8px;
 }
 
 .button-primary {

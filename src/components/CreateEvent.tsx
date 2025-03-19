@@ -99,24 +99,53 @@ const CreateEvent: React.FC<CreateEventProps> = ({ onEventCreated }) => {
         className="event-input"
       />
       <Button className="button-primary" onClick={handleCreateEvent} disabled={!previewEvent}>
-        ➕ Ajouter
+        <span className="bi bi-plus"></span> Ajouter
       </Button>
       {inputText.trim() && (
         <Card className="event-preview">
           <Card.Body>
-            <Card.Title>📅 Aperçu de l'événement</Card.Title>
+            <Card.Title>
+              <span className="bi bi-calendar"></span>
+              Aperçu 
+            </Card.Title>
             {previewEvent ? (
-              <>
-                <h4>{previewEvent.summary}</h4>
+              <div className="event-details">
+                <h4>
+                  {previewEvent.summary}
+                </h4>
                 <p>
-                  <strong>Début :</strong> {previewEvent.startDate.toLocaleString()}
+                  <span className="bi bi-clock"></span>
+                  <strong>Début :</strong> 
+                  {previewEvent.startDate.toLocaleString('fr-FR', {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })}
                 </p>
                 <p>
-                  <strong>Fin :</strong> {previewEvent.endDate.toLocaleString()}
+                  <span className="bi bi-clock"></span>
+                  <strong>Fin :</strong> 
+                  {previewEvent.endDate.toLocaleString('fr-FR', {
+                    weekday: 'long',
+                    day: 'numeric', 
+                    month: 'long',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })}
                 </p>
-              </>
+                <p className="event-duration">
+                  <span className="bi bi-calendar-week"></span>
+                  <strong>Durée :</strong> 
+                  {Math.round((previewEvent.endDate.getTime() - previewEvent.startDate.getTime()) / (1000 * 60 * 60))} heure(s)
+                </p>
+              </div>
             ) : (
-              <p className="text-danger">⚠️ Aucune date détectée</p>
+              <p className="text-danger">
+                <span className="bi bi-info-circle"></span>
+                Aucune date détectée
+              </p>
             )}
           </Card.Body>
         </Card>

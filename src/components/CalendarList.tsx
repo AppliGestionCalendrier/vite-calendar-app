@@ -70,14 +70,29 @@ const CalendarList: React.FC = () => {
     localStorage.setItem('calendars', JSON.stringify(updatedCalendars));
   };
 
-  if (loading) return <div className="calendar-page"><div className="loading">Chargement des calendriers</div></div>;
-  if (error) return <div className="calendar-page"><div className="calendar-container"><div className="text-danger"><i className="bi bi-exclamation-triangle-fill me-2"></i>{error}</div></div></div>;
+  if (loading)
+    return (
+      <div className="calendar-page">
+        <div className="loading">Chargement des calendriers</div>
+      </div>
+    );
+  if (error)
+    return (
+      <div className="calendar-page">
+        <div className="calendar-container">
+          <div className="text-danger">
+            <i className="bi bi-exclamation-triangle-fill me-2"></i>
+            {error}
+          </div>
+        </div>
+      </div>
+    );
 
   return (
     <div className="calendar-page">
       <div className="calendar-container">
         <h1 className="calendar-title">Calendriers Connectés</h1>
-        
+
         {/* Formulaire iCal avec icône */}
         <div className="add-calendar-form">
           <input
@@ -91,7 +106,7 @@ const CalendarList: React.FC = () => {
             <i className="bi bi-plus-lg"></i> Ajouter
           </button>
         </div>
-        
+
         {/* Formulaire Google Calendar avec icône */}
         <div className="add-calendar-form">
           <input
@@ -107,11 +122,13 @@ const CalendarList: React.FC = () => {
             <i className="bi bi-google"></i> Synchroniser
           </button>
         </div>
-        
+
         {/* Liste des calendriers avec nouveau design */}
         <div className="calendar-list">
-          <h2><i className="bi bi-calendar-week me-2"></i>Mes Calendriers</h2>
-          
+          <h2>
+            <i className="bi bi-calendar-week me-2"></i>Mes Calendriers
+          </h2>
+
           {calendars.length > 0 ? (
             calendars.map((calendar: Calendar) => (
               <div
@@ -122,7 +139,7 @@ const CalendarList: React.FC = () => {
                   to={`/calendars/${calendar.id}`}
                   className="calendar-name text-decoration-none w-75 text-truncate"
                 >
-                  <i className="bi bi-calendar-event"></i> {calendar.name}
+                  <i className="bi bi-calendar-event text-truncate"></i> {calendar.name}
                 </Link>
                 <button
                   className="btn btn-danger"
@@ -136,7 +153,8 @@ const CalendarList: React.FC = () => {
           ) : (
             <p>
               <i className="bi bi-calendar-x me-2"></i>
-              Aucun calendrier enregistré. Ajoutez votre premier calendrier en utilisant le formulaire ci-dessus.
+              Aucun calendrier enregistré. Ajoutez votre premier calendrier en utilisant le
+              formulaire ci-dessus.
             </p>
           )}
         </div>

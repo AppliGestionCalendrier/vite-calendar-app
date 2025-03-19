@@ -1,0 +1,81 @@
+/* root.css - CSS global pour l'application de calendrier */
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Couleurs principales */
+  --primary-color: #4f46e5; /* Indigo - légèrement plus foncé pour meilleur contraste */
+  --primary-hover: #4338ca;
+  --success-color: #059669; /* Emerald - légèrement plus foncé pour meilleur contraste */
+  --success-hover: #047857;
+  --danger-color: #dc2626; /* Red - légèrement plus foncé pour meilleur contraste */
+  --danger-hover: #b91c1c;
+  
+  /* Couleurs neutres */
+  --neutral-color: #64748b; /* Slate 500 */
+  --neutral-light: #e2e8f0; /* Gris très clair */
+  --neutral-mid: #94a3b8; /* Gris moyen */
+  
+  /* Arrière-plans */
+  --background-dark: #0f172a; /* Slate 900 */
+  --background-card: rgba(30, 41, 59, 0.9); /* Moins transparent pour meilleur lisibilité */
+  --background-input: rgba(30, 41, 59, 0.8); /* Moins transparent pour meilleur lisibilité */
+  --background-page: #f7fafc; /* Fond très clair pour mode clair */
+  
+  /* Textes */
+  --text-primary: #f8fafc; /* Slate 50 */
+  --text-secondary: #cbd5e1; /* Slate 300 */
+  --text-dark-primary: #2d3748; /* Pour mode clair */
+  --text-dark-secondary: #4a5568; /* Pour mode clair */
+  --text-light: #718096; /* Texte plus léger */
+  
+  /* Bordures et effets */
+  --border-radius: 12px; /* Légèrement réduit pour un design plus sobre */
+  --border-radius-sm: 8px;
+  --border-color: #e2e8f0; /* Bordure subtile */
+  --box-shadow-subtle: 0 4px 6px -1px rgba(0, 0, 0, 0.1); /* Ombre plus subtile */
+  
+  /* Transitions */
+  --transition-fast: 0.2s all cubic-bezier(0.4, 0, 0.2, 1); /* Transition plus naturelle */
+  --transition-normal: 0.3s all cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Style global de l'application */
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  line-height: 1.5;
+}
+
+/* Utilités flexbox communes */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-1 {
+  gap: 0.25rem;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.gap-3 {
+  gap: 0.75rem;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
