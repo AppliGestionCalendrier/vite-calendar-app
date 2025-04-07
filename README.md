@@ -1,50 +1,108 @@
-# React + TypeScript + Vite
+# vite-calendar-app
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Une application de gestion de calendrier développée avec React et TypeScript.
 
-Currently, two official plugins are available:
+## Démo en ligne
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Vous pouvez consulter la version en ligne de l'application à l'adresse suivante :
+[https://vite-calendar-app-seven.vercel.app/](https://vite-calendar-app-seven.vercel.app/)
 
-## Expanding the ESLint configuration
+## Participants au projet
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Clément ROLLIN
+- Alexandre BERNARDINI
+- Benjamin GLEITZ
+- Anthony MINI
 
-- Configure the top-level `parserOptions` property like this:
+## Description
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+Cette application de gestion de calendrier permet aux utilisateurs de créer, visualiser, modifier et supprimer des événements dans un calendrier interactif. Elle est construite avec des technologies modernes et offre une interface utilisateur intuitive.
+
+## Technologies utilisées
+
+- [React](https://reactjs.org/) - Bibliothèque JavaScript pour la création d'interfaces utilisateur
+- [TypeScript](https://www.typescriptlang.org/) - Superset JavaScript typé
+- [CSS](https://developer.mozilla.org/fr/docs/Web/CSS) - Pour le style de l'application
+- [Vercel](https://vercel.com/) - Plateforme de déploiement
+
+## Fonctionnalités
+
+- Affichage du calendrier en différentes vues
+- Création, modification et suppression d'événements
+- Interface responsive adaptée à différents appareils
+- Composants réutilisables
+
+## Installation
+
+```bash
+# Cloner le dépôt
+git clone https://github.com/AppliGestionCalendrier/vite-calendar-app.git
+
+# Accéder au répertoire
+cd vite-calendar-app
+
+# Installer les dépendances
+npm install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Développement
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+# Lancer le serveur de développement
+npm run dev
 ```
+
+## Build pour la production
+
+```bash
+# Générer les fichiers de production
+npm run build
+
+# Démarrer le serveur (utilisant server.ts)
+npm run start
+```
+
+## Déploiement
+
+L'application est déployée sur Vercel. Pour déployer votre propre version :
+
+1. Créez un compte sur [Vercel](https://vercel.com/)
+2. Liez votre dépôt GitHub à Vercel
+3. Configurez les paramètres de déploiement
+4. Déployez l'application
+
+## Structure du projet
+
+```
+AppliGestionCalendrier/
+├── .idea/               # Fichiers de configuration IntelliJ
+├── node_modules/        # Dépendances du projet
+├── public/              # Fichiers statiques
+├── src/                 # Code source
+│   ├── components/      # Composants React réutilisables
+│   ├── css/             # Fichiers de style CSS
+│   ├── pages/           # Pages de l'application
+│   ├── services/        # Services (API, etc.)
+│   ├── App.css          # Styles pour le composant App
+│   ├── App.tsx          # Composant principal
+│   ├── index.css        # Styles globaux
+│   ├── index.tsx        # Point d'entrée
+│   ├── logo.svg         # Logo de l'application
+│   ├── reportWebVitals.ts # Mesure de performances
+│   └── server.ts        # Serveur Node.js
+├── .gitignore           # Fichiers à ignorer par Git
+├── package.json         # Dépendances et scripts
+├── package-lock.json    # Versions précises des dépendances
+├── README.md            # Documentation du projet
+└── tsconfig.json        # Configuration TypeScript
+```
+
+## Démarrage rapide
+
+1. Clonez le dépôt
+2. Installez les dépendances avec `npm install`
+3. Lancez l'application en mode développement avec `npm run dev`
+
+## Licence
+
+Ce projet est sous licence MIT.
